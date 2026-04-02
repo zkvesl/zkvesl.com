@@ -113,6 +113,30 @@ import DataField from '../components/DataField.astro';
       </div>
     </section>
 
+    <!-- CARD 4 -->
+    <section class="card" id="card-4">
+      <pre class="card-code" aria-hidden="true">
+  on-chain
+  └─ settle proof         ✓  1 txn
+
+  off-chain (vesl)
+  ├─ execute              ✓  nock
+  ├─ prove                ✓  zk
+  └─ state transition     ✓  verified
+
+  chain sees: proof
+  chain does: verify
+  chain cost: constant</pre>
+      <div class="card-inner">
+        <span class="card-number">04</span>
+        <h2>this is how nockchain scales</h2>
+        <div class="card-rule"></div>
+        <p>
+          Move computation off-chain. Prove it happened correctly. Only the proof settles. The chain never re-executes your logic — it just verifies. Complexity grows off-chain; on-chain cost stays constant.
+        </p>
+      </div>
+    </section>
+
     <!-- FOOTER -->
     <footer>
       <div class="footer-inner">
@@ -352,8 +376,8 @@ import DataField from '../components/DataField.astro';
     line-height: 1.8;
   }
 
-  /* Card 2 reverses: code left, text right */
-  #card-2 { flex-direction: row-reverse; }
+  /* Even cards reverse: code left, text right */
+  #card-2, #card-4 { flex-direction: row-reverse; }
 
   /* FOOTER */
   footer {
