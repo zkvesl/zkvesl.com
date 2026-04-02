@@ -21,7 +21,7 @@ import DataField from '../components/DataField.astro';
     <!-- HERO -->
     <section class="hero">
       <div class="hero-inner">
-        <h1>vesl</h1>
+        <h1><img src="/vesl_horizontal_alpha.svg" alt="vesl" class="hero-logo" /></h1>
         <p class="tagline">
           Verifiable Execution and Settlement Layer
         </p>
@@ -220,12 +220,12 @@ import DataField from '../components/DataField.astro';
   }
 
   h1 {
-    font-family: var(--font-mono);
-    font-size: clamp(2.8rem, 7vw, 4.5rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--fg);
     margin-bottom: 1.2rem;
+  }
+
+  .hero-logo {
+    height: clamp(2.2rem, 6vw, 3.5rem);
+    width: auto;
   }
 
   .tagline {
