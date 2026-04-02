@@ -38,6 +38,15 @@ import DataField from '../components/DataField.astro';
 
     <!-- CARD 1 -->
     <section class="card" id="card-1">
+      <pre class="card-code" aria-hidden="true">
+  addr   00 01 02 03 04 05 06 07   08 09 0a 0b 0c 0d 0e 0f
+  0000   76 65 73 6c 2e 70 72 6f   6f 66 2e 76 65 72 69 66
+  0010   69 65 64 00 73 74 61 74   65 2e 63 6f 6d 6d 69 74
+  0020   00 6e 6f 63 6b 2e 65 78   65 63 00 64 65 74 65 72
+  0030   6d 69 6e 69 73 74 69 63   00 76 65 72 69 66 69 61
+  0040   62 6c 65 2e 62 79 2e 64   65 66 61 75 6c 74 00 00
+  0050   63 6f 6d 6d 69 74 6d 65   6e 74 2e 68 61 73 68 00
+  0060   70 72 6f 6f 66 2e 76 61   6c 69 64 00 00 00 00 00</pre>
       <div class="card-inner">
         <span class="card-number">01</span>
         <h2>verifiable by default</h2>
@@ -50,6 +59,21 @@ import DataField from '../components/DataField.astro';
 
     <!-- CARD 2 -->
     <section class="card" id="card-2">
+      <pre class="card-code" aria-hidden="true">+------------------------------------------+
+|  nock formula  [8 [1 0] 8 [1 6 [5 [0 7] |
+|                [4 0 6]] [0 6] 9 2 [0 2]  |
+|                [4 0 6] 0 7]              |
+|  subject       [42 0]                    |
+|  product       42                        |
+|  verified      true                      |
+|  cycles        7                         |
++------------------------------------------+
+|  ::  decrement gate                      |
+|  |=  a=@                                 |
+|  =|  i=0                                 |
+|  ?:  =(i a)  i                           |
+|  $(i +(i))                               |
++------------------------------------------+</pre>
       <div class="card-inner">
         <span class="card-number">02</span>
         <h2>nockchain native</h2>
@@ -62,6 +86,23 @@ import DataField from '../components/DataField.astro';
 
     <!-- CARD 3 -->
     <section class="card" id="card-3">
+      <pre class="card-code" aria-hidden="true">
+  [package]
+  name        = "vesl"
+  settlement  = "dumbnet"
+
+  [kernel]
+  entry       = "kernels/rag.hoon"
+  lib         = "hoon/"
+  compiled    = "assets/rag.jam"
+
+  [hull]
+  api         = true
+  port        = 3000
+  signing     = "ed25519"
+
+  $ cargo build --release
+  $ ./target/release/hull</pre>
       <div class="card-inner">
         <span class="card-number">03</span>
         <h2>build in rust, settle on-chain. that's it.</h2>
@@ -250,18 +291,31 @@ import DataField from '../components/DataField.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 2rem;
+    gap: 4rem;
+    padding: 6rem 8%;
     position: relative;
     border-top: 1px solid var(--rule);
   }
 
+  .card-code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.9;
+    color: var(--accent);
+    opacity: 0.3;
+    white-space: pre;
+    border: 1px solid rgba(0, 255, 163, 0.15);
+    background: rgba(0, 255, 163, 0.02);
+    padding: 1.5rem 2rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+
   .card-inner {
-    max-width: 560px;
+    max-width: 520px;
     position: relative;
     z-index: 1;
-    /* subtle dark backing so text reads clean over the data field */
-    background: radial-gradient(ellipse at center, rgba(10, 10, 10, 0.85) 0%, transparent 70%);
-    padding: 3rem;
   }
 
   .card-number {
@@ -298,10 +352,8 @@ import DataField from '../components/DataField.astro';
     line-height: 1.8;
   }
 
-  /* Alternate alignment */
-  #card-1 { justify-content: flex-start; padding-left: 12%; }
-  #card-2 { justify-content: flex-end; padding-right: 12%; }
-  #card-3 { justify-content: flex-start; padding-left: 12%; }
+  /* Card 2 reverses: code left, text right */
+  #card-2 { flex-direction: row-reverse; }
 
   /* FOOTER */
   footer {
@@ -345,15 +397,18 @@ import DataField from '../components/DataField.astro';
   }
 
   /* MOBILE */
-  @media (max-width: 768px) {
-    #card-1, #card-2, #card-3 {
-      justify-content: center;
-      padding-left: 2rem;
-      padding-right: 2rem;
+  @media (max-width: 900px) {
+    .card {
+      flex-direction: column !important;
+      padding: 4rem 2rem;
+      gap: 2rem;
+      min-height: auto;
     }
 
-    .card-inner {
-      padding: 2rem;
+    .card-code {
+      font-size: 0.65rem;
+      padding: 1rem 1.2rem;
+      max-width: 100%;
     }
 
     .footer-inner {
