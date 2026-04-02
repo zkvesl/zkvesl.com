@@ -1,0 +1,126 @@
+---
+// Generative ASCII data field — canvas background
+---
+
+<canvas id="data-field" aria-hidden="true"></canvas>
+
+<style>
+  #data-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.045;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('data-field') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  // character sets — weighted toward binary, occasional structure
+  const CHARS_BINARY = '01';
+  const CHARS_HEX = '0123456789abcdef';
+  const CHARS_STRUCT = '.:;|·';
+
+  const CELL = 12;       // px per character cell
+  const FONT_SIZE = 10;
+
+  // simple hash for deterministic pseudo-random
+  function hash(x: number, y: number, seed: number): number {
+    let h = seed;
+    h = (h ^ (x * 374761393)) >>> 0;
+    h = (h ^ (y * 668265263)) >>> 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    h = (h ^ (h >>> 16)) >>> 0;
+    return h / 4294967296;
+  }
+
+  // smooth noise via bilinear interpolation of hash grid
+  function noise(x: number, y: number, scale: number, seed: number): number {
+    const sx = x / scale;
+    const sy = y / scale;
+    const ix = Math.floor(sx);
+    const iy = Math.floor(sy);
+    const fx = sx - ix;
+    const fy = sy - iy;
+
+    // smoothstep
+    const ux = fx * fx * (3 - 2 * fx);
+    const uy = fy * fy * (3 - 2 * fy);
+
+    const a = hash(ix, iy, seed);
+    const b = hash(ix + 1, iy, seed);
+    const c = hash(ix, iy + 1, seed);
+    const d = hash(ix + 1, iy + 1, seed);
+
+    return a * (1 - ux) * (1 - uy)
+         + b * ux * (1 - uy)
+         + c * (1 - ux) * uy
+         + d * ux * uy;
+  }
+
+  // layered noise for organic density
+  function density(x: number, y: number): number {
+    const n1 = noise(x, y, 8, 42);
+    const n2 = noise(x, y, 18, 137);
+    const n3 = noise(x, y, 40, 7);
+    return n1 * 0.5 + n2 * 0.35 + n3 * 0.15;
+  }
+
+  function pickChar(r: number): string {
+    if (r < 0.78) return CHARS_BINARY[Math.floor(r * 2 * 10) % 2];
+    if (r < 0.92) return CHARS_HEX[Math.floor(r * 100) % 16];
+    return CHARS_STRUCT[Math.floor(r * 100) % CHARS_STRUCT.length];
+  }
+
+  function render() {
+    const dpr = window.devicePixelRatio || 1;
+    const w = window.innerWidth;
+    const h = document.documentElement.scrollHeight;
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(dpr, dpr);
+
+    // match the page height, not just viewport
+    canvas.style.position = 'absolute';
+
+    ctx.font = `${FONT_SIZE}px "JetBrains Mono", "Fira Code", "SF Mono", monospace`;
+    ctx.textBaseline = 'top';
+
+    const cols = Math.ceil(w / CELL);
+    const rows = Math.ceil(h / CELL);
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const d = density(col, row);
+
+        // threshold — creates the organic gaps/clusters from the reference
+        if (d < 0.32) continue;
+
+        const r = hash(col, row, 999);
+        const char = pickChar(r);
+
+        // opacity varies with density — denser areas are brighter
+        const alpha = (d - 0.32) * 1.2;
+        ctx.fillStyle = `rgba(214, 214, 214, ${Math.min(alpha, 0.85)})`;
+        ctx.fillText(char, col * CELL, row * CELL);
+      }
+    }
+  }
+
+  render();
+
+  // re-render on resize (debounced)
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 200);
+  });
+</script>

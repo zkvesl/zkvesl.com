@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Verified RAG on Nockchain' } = Astro.props;
+const { title, description = 'Verifiable Execution and Settlement Layer' } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,9 +32,12 @@ const { title, description = 'Verified RAG on Nockchain' } = Astro.props;
 <style is:global>
   :root {
     --bg: #0a0a0a;
-    --fg: #e0e0e0;
+    --fg: #d6d6d6;
     --accent: #00ffa3;
-    --muted: #666;
+    --accent-dim: rgba(0, 255, 163, 0.08);
+    --muted: #555;
+    --faint: rgba(214, 214, 214, 0.04);
+    --rule: rgba(214, 214, 214, 0.08);
     --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -54,6 +57,7 @@ const { title, description = 'Verified RAG on Nockchain' } = Astro.props;
 
   body {
     min-height: 100vh;
+    position: relative;
   }
 
   a {
