@@ -87,22 +87,17 @@ import DataField from '../components/DataField.astro';
     <!-- CARD 3 -->
     <section class="card" id="card-3">
       <pre class="card-code" aria-hidden="true">
-  [package]
-  name        = "vesl"
-  settlement  = "dumbnet"
+  # vesl.toml
+  nock_home       = "../../nockchain"
+  settlement_mode = "fakenet"
+  api_port        = 3000
 
-  [kernel]
-  entry       = "kernels/rag.hoon"
-  lib         = "hoon/"
-  compiled    = "assets/rag.jam"
+  # chain settings
+  chain_endpoint  = "http://localhost:9090"
+  tx_fee          = 256
 
-  [hull]
-  api         = true
-  port        = 3000
-  signing     = "ed25519"
-
-  $ cargo build --release
-  $ ./target/release/hull</pre>
+  $ make build
+  $ make demo-fakenet</pre>
       <div class="card-inner">
         <span class="card-number">03</span>
         <h2>build in rust, settle on-chain. that's it.</h2>
