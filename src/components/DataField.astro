@@ -19,9 +19,9 @@
   const canvas = document.getElementById('data-field') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d')!;
 
-  const CHARS_BINARY = '01';
-  const CHARS_HEX = '0123456789abcdef';
-  const CHARS_STRUCT = '.:;|·';
+  const CHARS_NOCK = '0123456789';
+  const CHARS_RUNE = '*+=/?.@^!';
+  const CHARS_CELL = '[] ';
 
   const CELL = 14;
   const FONT_SIZE = 11;
@@ -65,9 +65,9 @@
   }
 
   function pickChar(r: number): string {
-    if (r < 0.78) return CHARS_BINARY[Math.floor(r * 2 * 10) % 2];
-    if (r < 0.92) return CHARS_HEX[Math.floor(r * 100) % 16];
-    return CHARS_STRUCT[Math.floor(r * 100) % CHARS_STRUCT.length];
+    if (r < 0.65) return CHARS_NOCK[Math.floor(r * 100) % CHARS_NOCK.length];
+    if (r < 0.85) return CHARS_RUNE[Math.floor(r * 100) % CHARS_RUNE.length];
+    return CHARS_CELL[Math.floor(r * 100) % CHARS_CELL.length];
   }
 
   function render() {
