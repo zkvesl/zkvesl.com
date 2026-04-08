@@ -25,6 +25,9 @@ import DataField from '../components/DataField.astro';
         <p class="tagline">
           Verifiable Execution and Settlement Layer
         </p>
+        <p class="tagline-sub">
+          Built on Nockchain
+        </p>
         <p class="sub">
           Build on infrastructure where every computation is provable and every state transition is verified. No trust required.
         </p>
@@ -251,13 +254,23 @@ import DataField from '../components/DataField.astro';
     font-family: var(--font-mono);
     font-size: 1.1rem;
     color: var(--fg);
-    margin-bottom: 1rem;
+    margin-bottom: 0.4rem;
     font-weight: 400;
     letter-spacing: -0.01em;
   }
 
+  .tagline-sub {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+  }
+
   .sub {
-    color: var(--muted);
+    color: #999;
     font-size: 1rem;
     line-height: 1.7;
     margin-bottom: 2.5rem;
