@@ -32,9 +32,6 @@ import DataField from '../components/DataField.astro';
           <a href="https://docs.zkvesl.org" class="btn primary">Get started</a>
           <a href="https://github.com/zkVesl/vesl" class="btn secondary">View source</a>
         </div>
-        <p class="tagline-sub">
-          Built on Nockchain
-        </p>
       </div>
       <div class="scroll-hint" aria-hidden="true">&#8595;</div>
     </section>
@@ -170,6 +167,10 @@ import DataField from '../components/DataField.astro';
       </div>
     </footer>
   </main>
+
+  <div class="nockchain-bar">
+    Built on Nockchain
+  </div>
 </Layout>
 
 <style>
@@ -259,14 +260,22 @@ import DataField from '../components/DataField.astro';
     letter-spacing: -0.01em;
   }
 
-  .tagline-sub {
+  .nockchain-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--rule);
+    padding: 0.75rem 2rem;
+    text-align: center;
     font-family: var(--font-mono);
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--accent);
-    margin-top: 2rem;
     font-weight: 400;
-    letter-spacing: -0.01em;
-    opacity: 0.7;
+    letter-spacing: 0.02em;
+    opacity: 0.8;
   }
 
   .sub {
