@@ -132,6 +132,30 @@ import DataField from '../components/DataField.astro';
       </div>
     </section>
 
+    <!-- CARD 5 -->
+    <section class="card" id="card-5">
+      <pre class="card-code" aria-hidden="true">
+  ::  hoon
+  |=  [n=@ud]
+  ^-  @ud
+  ?:  =(n 0)  1
+  (mul n $(n (dec n)))
+
+  ::  what it actually says
+  fn factorial(n: uint) -> uint {
+    if n == 0 { return 1 }
+    n * factorial(n - 1)
+  }</pre>
+      <div class="card-inner">
+        <span class="card-number">05</span>
+        <h2>alien language, human interface</h2>
+        <div class="card-rule"></div>
+        <p>
+          Hoon is the alien language that powers Nock. Dense, correct, and nearly impossible to read unless you've called it home for years. Vesl handles the Hoon so you don't have to — you write Rust, we compile it down to something the machine can prove, and humans can read.
+        </p>
+      </div>
+    </section>
+
     <!-- FOOTER -->
     <footer>
       <div class="footer-inner">
