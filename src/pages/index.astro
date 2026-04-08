@@ -142,10 +142,10 @@ import DataField from '../components/DataField.astro';
   (mul n $(n (dec n)))
 
   ::  what it actually says
-  fn factorial(n: uint) -> uint {
-    if n == 0 { return 1 }
+  fn factorial(n: uint) -> uint {'{'}
+    if n == 0 {'{'} return 1 {'}'}
     n * factorial(n - 1)
-  }</pre>
+  {'}'}</pre>
       <div class="card-inner">
         <span class="card-number">05</span>
         <h2>alien language, human interface</h2>
