@@ -45,28 +45,22 @@ import DataField from '../components/DataField.astro';
           ::  Hoon compiles to Nock. Dense, precise, and unforgiving by design. Most developers never need to learn it. Vesl maintains the Hoon side of your app — grafts, gates, verification logic — so you work in Rust and TOML, not Hoon.
         </p>
       </div>
-      <pre class="card-code" aria-hidden="true" data-typewriter>++  verify-manifest
-  |=  $:  mani=$:  query=@t
-                   results=(list [chunk=[id=@ dat=@t]
-                                  proof=(list [hash=@ side=?])
-                                  score=@ud])
-                   prompt=@t
-                   output=@t
-                   page=@ud
-              ==
+      <pre class="card-code" aria-hidden="true" data-typewriter>++  verify-chunk
+  |=  $:  chunk=@
+          proof=(list [hash=@ side=?])
           expected-root=@
       ==
   ^-  ?
-  =/  res  results.mani
-  =/  dats=(list @t)  ~
+  ?:  (gth (lent proof) 64)  %.n
+  =/  cur=@  (hash-leaf chunk)
   |-
-  ?~  res
-    =/  ordered=(list @t)  (flop dats)
-    =/  built=@t  (build-prompt query.mani ordered)
-    =(built prompt.mani)
-  ?.  (verify-chunk dat.chunk.i.res proof.i.res expected-root)
-    %.n
-  $(dats [dat.chunk.i.res dats], res t.res)</pre>
+  ?~  proof
+    =(cur expected-root)
+  =/  nex=@
+    ?:  side.i.proof
+      (hash-pair hash.i.proof cur)
+    (hash-pair cur hash.i.proof)
+  $(cur nex, proof t.proof)</pre>
     </section>
 
     <!-- CARD 2 — a library, not a language -->
