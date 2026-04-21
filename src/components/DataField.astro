@@ -73,7 +73,7 @@
   function render() {
     const dpr = window.devicePixelRatio || 1;
     const w = window.innerWidth;
-    const h = document.documentElement.scrollHeight;
+    const h = window.innerHeight;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -97,9 +97,9 @@
         const r = hash(col, row, 999);
         const char = pickChar(r);
 
-        // opacity varies with density — denser areas brighter
-        const alpha = (d - 0.3) * 0.5;
-        ctx.fillStyle = `rgba(214, 214, 214, ${Math.min(alpha, 0.35)})`;
+        // opacity varies with density — denser areas slightly darker
+        const alpha = (d - 0.3) * 0.18;
+        ctx.fillStyle = `rgba(30, 28, 24, ${Math.min(alpha, 0.09)})`;
         ctx.fillText(char, col * CELL, row * CELL);
       }
     }

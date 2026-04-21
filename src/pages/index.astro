@@ -23,112 +23,172 @@ import DataField from '../components/DataField.astro';
       <div class="hero-inner">
         <h1><img src="/vesl_horizontal_alpha.svg" alt="vesl" class="hero-logo" /></h1>
         <p class="tagline">
-          Verifiable Execution and Settlement Layer
+          The verification and settlement layer for any NockApp
         </p>
         <p class="sub">
-          Build on infrastructure where every computation is provable and every state transition is verified. No trust required.
+          A growing catalog of composable grafts, verification gates, and Rust crates — injected into your kernel, wired from Rust.
         </p>
         <div class="cta">
           <a href="https://docs.zkvesl.org" class="btn primary">Get started</a>
           <a href="https://github.com/zkVesl/vesl" class="btn secondary">View source</a>
         </div>
       </div>
-      <div class="scroll-hint" aria-hidden="true">&#8595;</div>
     </section>
 
-    <!-- CARD 1 -->
+    <!-- CARD 1 — alien language, human interface -->
     <section class="card" id="card-1">
-      <pre class="card-code" aria-hidden="true">addr   00 01 02 03 04 05 06 07   08 09 0a 0b 0c 0d 0e 0f
-0000   76 65 73 6c 2e 70 72 6f   6f 66 2e 76 65 72 69 66
-0010   69 65 64 00 73 74 61 74   65 2e 63 6f 6d 6d 69 74
-0020   00 6e 6f 63 6b 2e 65 78   65 63 00 64 65 74 65 72
-0030   6d 69 6e 69 73 74 69 63   00 76 65 72 69 66 69 61
-0040   62 6c 65 2e 62 79 2e 64   65 66 61 75 6c 74 00 00
-0050   63 6f 6d 6d 69 74 6d 65   6e 74 2e 68 61 73 68 00
-0060   70 72 6f 6f 66 2e 76 61   6c 69 64 00 00 00 00 00</pre>
-      <div class="card-inner">
+      <div class="card-inner" data-reveal>
         <span class="card-number">01</span>
-        <h2>verifiable by default</h2>
-        <div class="card-rule"></div>
-        <p>
-          ::  Every operation produces a cryptographic proof. Not as an add-on. Not as a premium feature. As the foundation. If it ran, you can verify it. If you can't verify it, it didn't run.
-        </p>
-      </div>
-    </section>
-
-    <!-- CARD 2 -->
-    <section class="card" id="card-2">
-      <pre class="card-code" aria-hidden="true">+------------------------------------------+
-|  nock formula  [8 [1 0] 8 [1 6 [5 [0 7] |
-|                [4 0 6]] [0 6] 9 2 [0 2]  |
-|                [4 0 6] 0 7]              |
-|  subject       [42 0]                    |
-|  product       42                        |
-|  verified      true                      |
-|  cycles        7                         |
-+------------------------------------------+
-|  ::  decrement gate                      |
-|  |=  a=@                                 |
-|  =|  i=0                                 |
-|  ?:  =(i a)  i                           |
-|  $(i +(i))                               |
-+------------------------------------------+</pre>
-      <div class="card-inner">
-        <span class="card-number">02</span>
-        <h2>nockchain native</h2>
-        <div class="card-rule"></div>
-        <p>
-          ::  Nock is a minimal, deterministic virtual machine. Same input, same output, every time. Your application logic compiles down to something a machine can prove and anyone can verify. No opaque runtimes. No trust assumptions.
-        </p>
-      </div>
-    </section>
-
-    <!-- CARD 3 -->
-    <section class="card" id="card-3">
-      <pre class="card-code" aria-hidden="true">
-  ::  hoon
-  |=  [n=@ud]
-  ^-  @ud
-  ?:  =(n 0)  1
-  (mul n $(n (dec n)))
-
-  ::  what it actually says
-  fn factorial(n: uint) -> uint {'{'}
-    if n == 0 {'{'} return 1 {'}'}
-    n * factorial(n - 1)
-  {'}'}</pre>
-      <div class="card-inner">
-        <span class="card-number">03</span>
         <h2>alien language, human interface</h2>
         <div class="card-rule"></div>
         <p>
-          ::  Hoon compiles to Nock. Dense, correct, and nearly impossible to read unless you've called it home for years. Vesl handles the Hoon so you don't have to — you write Rust, Vesl compiles it down to something the machine can prove, and humans can read.
+          ::  Hoon compiles to Nock. Dense, precise, and nearly impossible to read unless you've called it home for years. Most developers never need to. Vesl maintains the Hoon side of your app — grafts, gates, verification logic — so you work in Rust and TOML, not Hoon.
         </p>
+      </div>
+      <pre class="card-code" aria-hidden="true" data-typewriter>::  hoon  —  what vesl writes
+|=  [data=@ root=@]
+^-  ?
+=((shax data) root)
+
+
+::  rust  —  what you write
+let ok = verify(&data, &root);</pre>
+    </section>
+
+    <!-- CARD 2 — a library, not a language -->
+    <section class="card" id="card-2">
+      <div class="card-inner" data-reveal>
+        <span class="card-number">02</span>
+        <h2>a library, not a language</h2>
+        <div class="card-rule"></div>
+        <p>
+          ::  Vesl is not a compiler from Rust to Hoon. It's a catalog of Hoon grafts, pre-written verification gates, and Rust crates that every Nockchain verification app ends up needing. Vesl maintains them. You inject them into your kernel, wire them from Rust, and keep writing your app. No language abstraction. No hidden runtime.
+        </p>
+      </div>
+      <pre class="card-code" aria-hidden="true" data-typewriter># nockapp.toml
+
+[package]
+name     = "my-app"
+version  = "0.1.0"
+template = "basic"
+
+[settle-graft]
+gate-chain = [
+  "sig-verify-ed25519",
+  "manifest-verify",
+]
+
+[mint-graft]
+hull = 1</pre>
+    </section>
+
+    <!-- CARD 3 — the catalog (full-width) -->
+    <section class="card card-full" id="card-3">
+      <div class="card-inner-wide">
+        <div data-reveal>
+          <span class="card-number">03</span>
+          <h2>the catalog</h2>
+          <div class="card-rule"></div>
+          <p class="catalog-lede">
+            ::  Four categories. Pick what you need. Compose from Rust.
+          </p>
+        </div>
+
+        <div class="catalog-grid" role="region" aria-label="primitive catalog, scroll horizontally">
+          <div class="catalog-group">
+            <h3 class="catalog-group-title">commitment grafts</h3>
+            <p class="catalog-group-desc">::  The plumbing of proof. Commit data, verify roots, settle notes, prove computations. The four primitives every verification app routes through.</p>
+            <ul class="catalog-list">
+              <li><code>mint</code> <span class="catalog-desc">::  append-only merkle commitment</span></li>
+              <li><code>settle</code> <span class="catalog-desc">::  hard settlement, replay protection</span></li>
+              <li><code>guard</code> <span class="catalog-desc">::  soft verification, returns loobean</span></li>
+              <li><code>forge</code> <span class="catalog-desc">::  stark proofs, epoch-versioned</span></li>
+            </ul>
+          </div>
+
+          <div class="catalog-group">
+            <h3 class="catalog-group-title">verification gates</h3>
+            <p class="catalog-group-desc">::  Pre-written verification predicates. Pick one in the manifest; compose into AND-chains for multi-step verification. Never hand-write a gate.</p>
+            <ul class="catalog-list">
+              <li><code>sig-verify-ed25519</code> <span class="catalog-desc">::  signed attestations</span></li>
+              <li><code>sig-verify-schnorr</code> <span class="catalog-desc">::  nockchain-native signatures</span></li>
+              <li><code>manifest-verify</code> <span class="catalog-desc">::  structured-document commitment</span></li>
+              <li><code>set-membership</code> <span class="catalog-desc">::  allowlist / blocklist</span></li>
+              <li><code>range-proof</code> <span class="catalog-desc">::  age gates, balance checks</span></li>
+            </ul>
+          </div>
+
+          <div class="catalog-group">
+            <h3 class="catalog-group-title">state grafts</h3>
+            <p class="catalog-group-desc">::  Opinionated state shapes. Registries, queues, counters, permissions — domain-keyed scaffolding that slots into your kernel à la carte. State you don't write.</p>
+            <ul class="catalog-list">
+              <li><code>registry</code> <span class="catalog-desc">::  user directories, config stores</span></li>
+              <li><code>queue</code> <span class="catalog-desc">::  job queues, request backlogs</span></li>
+              <li><code>counter</code> <span class="catalog-desc">::  sequence numbers, nonces, metering</span></li>
+              <li><code>rbac</code> <span class="catalog-desc">::  permission enforcement</span></li>
+              <li><code>kv</code> <span class="catalog-desc">::  simple key-value store</span></li>
+            </ul>
+          </div>
+
+          <div class="catalog-group">
+            <h3 class="catalog-group-title">behavior grafts</h3>
+            <p class="catalog-group-desc">::  TOML-configured runtime rules. Input validation, lifecycle state machines, secondary indexes, audit logs, deterministic time. The wiring around your state.</p>
+            <ul class="catalog-list">
+              <li><code>validate</code> <span class="catalog-desc">::  field rules before poke runs</span></li>
+              <li><code>fsm</code> <span class="catalog-desc">::  enforce state transitions</span></li>
+              <li><code>index</code> <span class="catalog-desc">::  secondary indexes on map state</span></li>
+              <li><code>log</code> <span class="catalog-desc">::  monotonic audit trail</span></li>
+              <li><code>clock</code> <span class="catalog-desc">::  deterministic time primitive</span></li>
+              <li><code>batch</code> <span class="catalog-desc">::  buffer intents, flush on trigger</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="scrub-dots" aria-hidden="true">
+          <span class="scrub-dot" data-scrub-dot="0"></span>
+          <span class="scrub-dot" data-scrub-dot="1"></span>
+          <span class="scrub-dot" data-scrub-dot="2"></span>
+          <span class="scrub-dot" data-scrub-dot="3"></span>
+        </div>
+        <p class="scrub-hint" aria-hidden="true">::  swipe →</p>
+
       </div>
     </section>
 
-    <!-- CARD 4 -->
+    <!-- CARD 4 — pre-compiled hulls -->
     <section class="card" id="card-4">
-      <pre class="card-code" aria-hidden="true">
-  on-chain
-  └─ settle proof         ✓  1 txn
-
-  off-chain (vesl)
-  ├─ execute              ✓  nock
-  ├─ prove                ✓  zk
-  └─ state transition     ✓  verified
-
-  chain sees: proof
-  chain does: verify
-  chain cost: constant</pre>
-      <div class="card-inner">
+      <div class="card-inner" data-reveal>
         <span class="card-number">04</span>
-        <h2>this is how nockchain scales</h2>
+        <h2>pre-compiled hulls</h2>
         <div class="card-rule"></div>
         <p>
-          ::  Move computation off-chain. Prove it happened correctly. Only the proof settles. The chain never re-executes your logic — it just verifies. Complexity grows off-chain; on-chain cost stays constant.
+          ::  A hull is a complete NockApp kernel wired for a specific domain. Grafts composed. Gates chosen. State shapes decided. Fork it, bring your domain data, and ship.
+        </p>
+        <p class="card-coda">
+          <code>hull-llm</code> is the first reference hull — attested LLM generation against a committed document set. Nothing to wire by hand.
         </p>
       </div>
+      <pre class="card-code" aria-hidden="true" data-typewriter>::  hull-llm
+
+──  ingest
+docs → chunk → tip5 merkle → %register
+
+──  query
+q → retrieve → proofs → llm → manifest
+                                │
+                                ▼
+                         %settle
+                         verify-chunk
+                         build-prompt
+                         pending → settled
+                                │
+                                ▼
+                         on-chain note</pre>
+    </section>
+
+    <!-- STATUS FLAG -->
+    <section class="status-flag" data-reveal>
+      <p>Vesl is in active development. Ships soon.</p>
     </section>
 
     <!-- FOOTER -->
@@ -138,7 +198,6 @@ import DataField from '../components/DataField.astro';
           <a href="https://docs.zkvesl.org">docs</a>
           <a href="https://github.com/zkVesl/vesl">github</a>
         </div>
-        <p class="sigil">~</p>
       </div>
     </footer>
   </main>
@@ -155,7 +214,7 @@ import DataField from '../components/DataField.astro';
     top: 0;
     width: 100%;
     z-index: 100;
-    background: rgba(10, 10, 10, 0.92);
+    background: rgba(246, 241, 231, 0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
   }
@@ -169,17 +228,9 @@ import DataField from '../components/DataField.astro';
     align-items: center;
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-
+  .logo { display: flex; align-items: center; }
   .logo:hover { text-decoration: none; }
-
-  .logo-mark {
-    height: 28px;
-    width: auto;
-  }
+  .logo-mark { height: 28px; width: auto; }
 
   .nav-links {
     display: flex;
@@ -191,12 +242,14 @@ import DataField from '../components/DataField.astro';
     color: var(--muted);
     font-size: 0.8rem;
     letter-spacing: 0.04em;
+    text-decoration: none;
     transition: color 0.2s;
   }
 
   .nav-links a:hover {
-    color: var(--fg);
-    text-decoration: none;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* HERO */
@@ -218,49 +271,78 @@ import DataField from '../components/DataField.astro';
   }
 
   h1 {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.4rem;
+    position: relative;
+    display: inline-block;
   }
 
   .hero-logo {
     height: clamp(2.2rem, 6vw, 3.5rem);
     width: auto;
+    clip-path: inset(0 100% 0 0);
+    animation: logo-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  }
+
+  /* Plotter-pen line that tracks the clip edge during reveal */
+  h1::after {
+    content: '';
+    position: absolute;
+    top: -4%;
+    bottom: -4%;
+    left: 0;
+    width: 1px;
+    background: var(--ink);
+    opacity: 0;
+    transform-origin: left center;
+    animation: plotter-pen 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+    pointer-events: none;
+  }
+
+  @keyframes logo-reveal {
+    0%   { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes plotter-pen {
+    0%   { left: 0;    opacity: 0; }
+    8%   { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { left: 100%; opacity: 0; }
   }
 
   .tagline {
     font-family: var(--font-mono);
-    font-size: 1.1rem;
-    color: var(--fg);
-    margin-bottom: 1rem;
-    font-weight: 400;
+    font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
     letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 0.9s forwards;
   }
 
-  .nockchain-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid var(--rule);
-    padding: 0.75rem 2rem;
-    text-align: center;
+  .sub-lede {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    opacity: 0.8;
+    font-size: 0.92rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 1.1s forwards;
   }
 
   .sub {
-    color: #999;
-    font-size: 1rem;
-    line-height: 1.7;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.75;
     margin-bottom: 2.5rem;
-    max-width: 480px;
+    max-width: 560px;
     margin-left: auto;
     margin-right: auto;
+    font-family: var(--font-mono);
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 1.3s forwards;
   }
 
   .cta {
@@ -268,55 +350,157 @@ import DataField from '../components/DataField.astro';
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 1.5s forwards;
+  }
+
+  @keyframes fade-up {
+    0%   { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo,
+    h1::after,
+    .tagline,
+    .sub-lede,
+    .sub,
+    .cta {
+      animation: none !important;
+      opacity: 1 !important;
+      clip-path: none !important;
+    }
+  }
+
+  /* SCROLL REVEAL */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-reveal][data-reveal-delay="1"].revealed { transition-delay: 0.12s; }
+  [data-reveal][data-reveal-delay="2"].revealed { transition-delay: 0.24s; }
+  [data-reveal][data-reveal-delay="3"].revealed { transition-delay: 0.36s; }
+  [data-reveal][data-reveal-delay="4"].revealed { transition-delay: 0.48s; }
+  [data-reveal][data-reveal-delay="5"].revealed { transition-delay: 0.60s; }
+
+  /* TYPEWRITER — code blocks and spec header */
+  [data-typewriter] {
+    opacity: 0;
+    transition: opacity 0.35s ease-out;
+  }
+
+  [data-typewriter].typing,
+  [data-typewriter].typed {
+    opacity: 1;
+  }
+
+  /* Subtle blinking caret while typing */
+  [data-typewriter].typing::after {
+    content: '▍';
+    display: inline-block;
+    color: var(--ink);
+    animation: caret-blink 0.9s steps(2, start) infinite;
+    margin-left: 1px;
+    opacity: 0.75;
+  }
+
+  @keyframes caret-blink {
+    to { visibility: hidden; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal],
+    [data-typewriter] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    [data-typewriter].typing::after { display: none; }
   }
 
   .btn {
     padding: 0.65rem 1.8rem;
-    border-radius: 4px;
+    border-radius: 2px;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    transition: all 0.2s;
+    transition: all 0.15s;
     display: inline-block;
+    text-decoration: none;
   }
 
   .btn:hover { text-decoration: none; }
 
   .btn.primary {
-    background: var(--accent);
+    background: var(--ink);
     color: var(--bg);
   }
 
   .btn.primary:hover {
-    background: #00dd8a;
+    background: #2a2a22;
     transform: translateY(-1px);
   }
 
   .btn.secondary {
-    border: 1px solid var(--rule);
-    color: var(--muted);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
   }
 
   .btn.secondary:hover {
-    border-color: rgba(214, 214, 214, 0.2);
-    color: var(--fg);
+    background: var(--ink);
+    color: var(--bg);
     transform: translateY(-1px);
   }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    font-family: var(--font-mono);
-    font-size: 1.2rem;
-    color: var(--muted);
-    animation: pulse 2.5s ease-in-out infinite;
+  /* SPEC HEADER BLOCK */
+  .spec-header {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1.5rem;
+    position: relative;
     z-index: 1;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 0.2; transform: translateY(0); }
-    50% { opacity: 0.6; transform: translateY(5px); }
+  .spec-block {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.4rem 0;
+    opacity: 0.88;
+  }
+
+  /* NOCKCHAIN BAR */
+  .nockchain-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(246, 241, 231, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--rule);
+    padding: 0.75rem 2rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
   }
 
   /* CONTENT LAYER — sits above canvas */
@@ -338,17 +522,17 @@ import DataField from '../components/DataField.astro';
 
   .card-code {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.9;
-    color: var(--accent);
-    opacity: 0.55;
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--ink);
     white-space: pre;
-    border: 1px solid rgba(0, 255, 163, 0.25);
-    background: linear-gradient(135deg, rgba(0, 255, 163, 0.08), rgba(0, 0, 0, 0.4) 50%, rgba(0, 255, 163, 0.08));
+    border: 1px solid var(--rule);
+    background: var(--paper-shade);
     padding: 1.5rem 2rem;
-    border-radius: 4px;
+    border-radius: 2px;
     flex-shrink: 0;
     overflow-x: auto;
+    opacity: 0.92;
   }
 
   .card-inner {
@@ -359,44 +543,235 @@ import DataField from '../components/DataField.astro';
 
   .card-number {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent);
+    font-size: 0.72rem;
+    color: var(--muted);
     letter-spacing: 0.15em;
     display: block;
-    margin-bottom: 1.5rem;
-    opacity: 0.7;
+    margin-bottom: 1.3rem;
   }
 
   .card h2 {
     font-family: var(--font-mono);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
     font-weight: 600;
     letter-spacing: -0.02em;
-    color: var(--fg);
-    margin-bottom: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
     line-height: 1.25;
   }
 
   .card-rule {
     width: 40px;
     height: 1px;
-    background: var(--accent);
-    margin-bottom: 1.5rem;
-    opacity: 0.4;
+    background: var(--ink);
+    margin-bottom: 1.4rem;
+    opacity: 0.5;
   }
 
   .card p {
-    color: #888;
-    font-size: 1.05rem;
+    color: var(--ink);
+    font-size: 1.02rem;
     line-height: 1.8;
+    opacity: 0.82;
+    font-family: var(--font-mono);
+  }
+
+  .card .card-coda {
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    opacity: 0.65;
   }
 
   /* Even cards reverse: code left, text right */
   #card-2, #card-4 { flex-direction: row-reverse; }
 
+  /* CARD 3 — full-width catalog */
+  .card-full {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 4rem 8%;
+  }
+
+  .card-inner-wide {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .catalog-lede {
+    margin-bottom: 2rem !important;
+  }
+
+  .catalog-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 1.2rem 0 0.6rem;
+    padding: 0.25rem 0 0.9rem;
+  }
+
+  .catalog-grid::-webkit-scrollbar { display: none; }
+
+  .catalog-group {
+    flex: 0 0 min(86%, 420px);
+    scroll-snap-align: start;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+    padding: 1.1rem 1.2rem 1.3rem;
+    background: var(--faint);
+  }
+
+  .scrub-dots {
+    display: flex;
+    gap: 0.55rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0.4rem 0 0.2rem;
+  }
+
+  .scrub-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--muted);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .scrub-dot.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: scale(1.15);
+  }
+
+  .scrub-hint {
+    font-family: var(--font-mono);
+    font-size: 0.78rem !important;
+    color: var(--muted) !important;
+    text-align: center;
+    opacity: 0.7 !important;
+    margin-bottom: 1.4rem !important;
+    letter-spacing: 0.04em;
+    animation: hint-pulse 3.4s ease-in-out infinite;
+  }
+
+  @keyframes hint-pulse {
+    0%, 100% { opacity: 0.45 !important; }
+    50%      { opacity: 0.85 !important; }
+  }
+
+  .scrub-hint.dismissed {
+    opacity: 0 !important;
+    animation: none;
+    pointer-events: none;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .catalog-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.005em;
+  }
+
+  .group-note {
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 0.5rem;
+  }
+
+  .catalog-group-desc {
+    font-family: var(--font-mono);
+    font-size: 0.78rem !important;
+    color: var(--muted) !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0.9rem !important;
+    opacity: 0.92 !important;
+  }
+
+  .catalog-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    line-height: 2;
+  }
+
+  .catalog-list li {
+    color: var(--ink);
+    opacity: 0.9;
+  }
+
+  .catalog-list code {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .catalog-desc {
+    color: var(--muted);
+    margin-left: 0.4rem;
+  }
+
+  .catalog-coda {
+    margin-top: 1.5rem !important;
+    font-size: 0.94rem !important;
+    opacity: 0.75 !important;
+  }
+
+  /* CHIPS — primitive status markers */
+  .chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 0.1rem 0.45rem;
+    border: 1px solid var(--ink);
+    border-radius: 1px;
+    margin-right: 0.55rem;
+    text-transform: lowercase;
+    line-height: 1.4;
+    vertical-align: 1px;
+  }
+
+  .chip-ship { background: var(--ink); color: var(--bg); }
+  .chip-next { background: transparent; color: var(--ink); }
+  .chip-plan {
+    background: transparent;
+    color: var(--muted);
+    border-color: var(--muted);
+    border-style: dashed;
+  }
+
+  /* STATUS FLAG */
+  .status-flag {
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    position: relative;
+    z-index: 1;
+  }
+
+  .status-flag p {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--ink);
+    opacity: 0.75;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+
   /* FOOTER */
   footer {
-    padding: 3rem 2rem;
+    padding: 3rem 2rem 4.5rem;
     border-top: 1px solid var(--rule);
     position: relative;
     z-index: 1;
@@ -408,7 +783,21 @@ import DataField from '../components/DataField.astro';
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
   }
+
+  .footer-status {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-status .dot { opacity: 0.5; }
 
   .footer-links {
     display: flex;
@@ -420,34 +809,40 @@ import DataField from '../components/DataField.astro';
     color: var(--muted);
     font-size: 0.8rem;
     letter-spacing: 0.04em;
+    text-decoration: none;
     transition: color 0.2s;
   }
 
   .footer-links a:hover {
-    color: var(--fg);
-    text-decoration: none;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .sigil {
     font-family: var(--font-mono);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--muted);
-    opacity: 0.5;
+    opacity: 0.55;
   }
 
   /* MOBILE */
   @media (max-width: 900px) {
     .card {
       flex-direction: column !important;
-      padding: 4rem 2rem;
+      padding: 3.5rem 2rem;
       gap: 2rem;
       min-height: auto;
     }
 
     .card-code {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       padding: 1rem 1.2rem;
       max-width: 100%;
+    }
+
+    .catalog-group {
+      flex-basis: 88%;
     }
 
     .footer-inner {
@@ -455,5 +850,129 @@ import DataField from '../components/DataField.astro';
       gap: 1.5rem;
       text-align: center;
     }
+
+    .spec-block { font-size: 0.78rem; }
   }
 </style>
+
+<script>
+  // --- Scroll reveal (fade-up) ---
+  const reveal = (el: Element) => el.classList.add('revealed');
+
+  const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+  // --- Typewriter on code blocks ---
+  const typeTargets = document.querySelectorAll<HTMLElement>('[data-typewriter]');
+  const originalText = new WeakMap<HTMLElement, string>();
+
+  // Capture original text + reserve min-height so layout doesn't jump
+  typeTargets.forEach((el) => {
+    originalText.set(el, el.textContent ?? '');
+    const h = el.offsetHeight;
+    if (h > 0) el.style.minHeight = h + 'px';
+  });
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function typewriter(el: HTMLElement) {
+    if (el.dataset.typed === 'true') return;
+    el.dataset.typed = 'true';
+
+    const full = originalText.get(el) ?? '';
+    if (prefersReducedMotion || full.length === 0) {
+      el.classList.add('typed');
+      return;
+    }
+
+    el.textContent = '';
+    el.classList.add('typing');
+
+    const len = full.length;
+    // Finish in ~70-90 frames → ~1.2s at 60fps
+    const charsPerTick = Math.max(2, Math.ceil(len / 80));
+    let i = 0;
+
+    const tick = () => {
+      i = Math.min(i + charsPerTick, len);
+      el.textContent = full.slice(0, i);
+      if (i < len) {
+        requestAnimationFrame(tick);
+      } else {
+        el.classList.remove('typing');
+        el.classList.add('typed');
+      }
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // --- IntersectionObserver wiring ---
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          if (el.hasAttribute('data-reveal')) reveal(el);
+          if (el.hasAttribute('data-typewriter')) typewriter(el);
+          io.unobserve(el);
+        }
+      }
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    const engage = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        if (el.hasAttribute('data-reveal')) reveal(el);
+        if (el.hasAttribute('data-typewriter')) typewriter(el);
+      } else {
+        io.observe(el);
+      }
+    };
+
+    revealTargets.forEach(engage);
+    typeTargets.forEach(engage);
+  } else {
+    revealTargets.forEach(reveal);
+    typeTargets.forEach((el) => el.classList.add('typed'));
+  }
+
+  // --- Catalog scrubber: dot tracking + hint dismiss ---
+  const grid = document.querySelector<HTMLElement>('.catalog-grid');
+  const dots = document.querySelectorAll<HTMLElement>('.scrub-dot');
+  const hint = document.querySelector<HTMLElement>('.scrub-hint');
+
+  if (grid && dots.length) {
+    const groups = grid.querySelectorAll<HTMLElement>('.catalog-group');
+
+    const updateDots = () => {
+      if (groups.length === 0) return;
+      const gridRect = grid.getBoundingClientRect();
+      const center = gridRect.left + gridRect.width / 2;
+      let closest = 0;
+      let minDist = Infinity;
+      groups.forEach((g, i) => {
+        const r = g.getBoundingClientRect();
+        const gc = r.left + r.width / 2;
+        const dist = Math.abs(gc - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
+    };
+
+    let hintDismissed = false;
+    const onScroll = () => {
+      updateDots();
+      if (!hintDismissed && grid.scrollLeft > 20 && hint) {
+        hint.classList.add('dismissed');
+        hintDismissed = true;
+      }
+    };
+
+    grid.addEventListener('scroll', onScroll, { passive: true });
+    updateDots();
+
+    // Auto-hide hint after 6s even if user doesn't scroll
+    if (hint) {
+      setTimeout(() => { if (!hintDismissed) hint.classList.add('dismissed'); }, 6000);
+    }
+  }
+</script>

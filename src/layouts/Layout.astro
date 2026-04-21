@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Verifiable Execution and Settlement Layer' } = Astro.props;
+const { title, description = 'The verification and settlement layer for any NockApp. A growing catalog of composable grafts, verification gates, and Rust crates for Nockchain.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -31,13 +31,13 @@ const { title, description = 'Verifiable Execution and Settlement Layer' } = Ast
 
 <style is:global>
   :root {
-    --bg: #0a0a0a;
-    --fg: #d6d6d6;
-    --accent: #00ffa3;
-    --accent-dim: rgba(0, 255, 163, 0.08);
-    --muted: #555;
-    --faint: rgba(214, 214, 214, 0.04);
-    --rule: rgba(214, 214, 214, 0.08);
+    --bg: #f6f1e7;
+    --fg: #141410;
+    --ink: #141410;
+    --muted: #6b6a64;
+    --faint: rgba(20, 20, 16, 0.05);
+    --rule: rgba(20, 20, 16, 0.14);
+    --paper-shade: #efeadb;
     --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -61,12 +61,14 @@ const { title, description = 'Verifiable Execution and Settlement Layer' } = Ast
   }
 
   a {
-    color: var(--accent);
-    text-decoration: none;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
 
   a:hover {
-    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 
   code, pre {
