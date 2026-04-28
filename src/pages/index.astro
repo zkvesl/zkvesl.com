@@ -122,7 +122,7 @@ hull = 1</pre>
               <li><code>sig-verify-schnorr</code> <span class="catalog-desc">::  nockchain-native signatures</span></li>
               <li><code>manifest-verify</code> <span class="catalog-desc">::  structured-document commitment</span></li>
               <li><code>set-membership</code> <span class="catalog-desc">::  allowlist / blocklist</span></li>
-              <li><code>range-proof</code> <span class="catalog-desc">::  age gates, balance checks</span></li>
+              <li><code>bounded-value</code> <span class="catalog-desc">::  age gates, balance checks</span></li>
             </ul>
           </div>
 
@@ -140,11 +140,9 @@ hull = 1</pre>
 
           <div class="catalog-group">
             <h3 class="catalog-group-title">behavior grafts</h3>
-            <p class="catalog-group-desc">::  TOML-configured runtime rules. Input validation, lifecycle state machines, secondary indexes, audit logs, deterministic time. The wiring around your state.</p>
+            <p class="catalog-group-desc">::  Runtime rules and observers. Input validation, audit logs, deterministic time, settlement batching. The wiring around your state.</p>
             <ul class="catalog-list">
-              <li><code>validate</code> <span class="catalog-desc">::  field rules before poke runs</span></li>
-              <li><code>fsm</code> <span class="catalog-desc">::  enforce state transitions</span></li>
-              <li><code>index</code> <span class="catalog-desc">::  secondary indexes on map state</span></li>
+              <li><code>validate</code> <span class="catalog-desc">::  rule checks before poke runs</span></li>
               <li><code>log</code> <span class="catalog-desc">::  monotonic audit trail</span></li>
               <li><code>clock</code> <span class="catalog-desc">::  deterministic time primitive</span></li>
               <li><code>batch</code> <span class="catalog-desc">::  buffer intents, flush on trigger</span></li>
