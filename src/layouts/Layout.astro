@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'The verification and settlement layer for any NockApp. A growing catalog of composable grafts, verification gates, and Rust crates for Nockchain.' } = Astro.props;
+const { title, description = 'Primitives and tooling for verifiable apps. A growing catalog of composable grafts, verification gates, and Rust crates for Nockchain.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,6 +22,19 @@ const { title, description = 'The verification and settlement layer for any Nock
     <meta property="og:url" content="https://zkvesl.org" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      Type stack: Berkeley Mono if locally installed / self-hosted from /public/fonts/,
+      Geist Mono as the public-web fallback. Both have terminal proportions and
+      tuned ASCII so Hoon digraphs (`++`, `|%`, `?>`, `=/`) read cleanly.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap"
+    />
+
     <title>{title}</title>
   </head>
   <body>
@@ -31,15 +44,35 @@ const { title, description = 'The verification and settlement layer for any Nock
 
 <style is:global>
   :root {
-    --bg: #f6f1e7;
-    --fg: #141410;
-    --ink: #141410;
-    --muted: #6b6a64;
-    --faint: rgba(20, 20, 16, 0.05);
-    --rule: rgba(20, 20, 16, 0.14);
-    --paper-shade: #efeadb;
-    --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Dark base, warm off-white ink, single neon accent.
+       BG matches zkvesl-docs (#0a0a0a). Ink keeps a paper warmth in negative
+       so the whole site reads "from the other side of paper," not "stark void." */
+    --paper:        #0a0a0a;
+    --paper-shade:  #121210;
+    --paper-deep:   #1c1b17;
+    --paper-alpha:  rgba(10, 10, 10, 0.86);
+    --ink:          #e8e2d2;
+    --ink-soft:     #cfcaba;
+    --muted:        #8a8780;
+    --muted-soft:   #5e5b54;
+    --rule:         rgba(232, 226, 210, 0.10);
+    --rule-strong:  rgba(232, 226, 210, 0.24);
+    --faint:        rgba(232, 226, 210, 0.04);
+
+    /* The one accent. Pure neon matches zkvesl-docs exactly. */
+    --accent:        #00ffa3;
+    --accent-bright: #6dffc8;
+    --accent-dim:    #00b572;
+    --accent-soft:   rgba(0, 255, 163, 0.12);
+    --accent-rule:   rgba(0, 255, 163, 0.32);
+    --accent-glow:   rgba(0, 255, 163, 0.18);
+
+    /* Legacy aliases (still referenced by older selectors). */
+    --bg: var(--paper);
+    --fg: var(--ink);
+
+    --font-mono: 'Berkeley Mono', 'TX-02', 'Geist Mono', 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --font-sans: var(--font-mono);
   }
 
   * {
@@ -49,15 +82,19 @@ const { title, description = 'The verification and settlement layer for any Nock
   }
 
   html {
-    font-family: var(--font-sans);
-    background: var(--bg);
-    color: var(--fg);
+    font-family: var(--font-mono);
+    background: var(--paper);
+    color: var(--ink);
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
   }
 
   body {
     min-height: 100vh;
     position: relative;
+    font-feature-settings: "ss01", "ss02", "calt";
   }
 
   a {
@@ -65,13 +102,19 @@ const { title, description = 'The verification and settlement layer for any Nock
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+    text-decoration-color: var(--rule-strong);
   }
 
   a:hover {
-    text-decoration-thickness: 2px;
+    text-decoration-color: var(--accent);
   }
 
   code, pre {
     font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--paper);
   }
 </style>

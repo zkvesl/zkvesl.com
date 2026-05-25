@@ -1,0 +1,574 @@
+---
+// Rotating code panel — Pkl-style multi-tab snippet rotator.
+// Four panels tell the whole pitch: compose → write → drive → verify.
+//
+// Tabs auto-advance every 6s; clicking a tab pins it (rotation halts).
+// Each panel reveals line-by-line on activation.
+//
+// Pane content lives as escaped HTML strings here because the .astro parser
+// treats `<` / `>` / `{` / `}` in inline children as syntax. Strings + set:html
+// sidestep that without losing per-token coloring.
+
+const panes: Array<{ tab: string; num: string; lang: string; html: string }> = [
+  {
+    tab: 'nockapp.toml',
+    num: '01',
+    lang: 'toml',
+    html: `<span class="cl">[package]</span>
+<span class="ck">name</span>     = <span class="cs">"license-registry"</span>
+<span class="ck">template</span> = <span class="cs">"basic"</span>
+
+<span class="cl">[settle-graft]</span>
+<span class="ck">gate-chain</span> = [
+  <span class="cs">"sig-verify-schnorr"</span>,
+  <span class="cs">"manifest-verify"</span>,
+]
+
+<span class="cl">[rbac-graft]</span>
+<span class="ck">admins</span> = [<span class="cs">"~0xa2c1..."</span>]
+
+<span class="cl">[registry-graft]</span>
+<span class="cl">[log-graft]</span>
+<span class="cl">[batch-graft]</span>
+<span class="cc">::  five grafts. one command composes them.</span>
+<span class="cc">::  nockup graft inject --apply hoon/app/app.hoon</span>`,
+  },
+  {
+    tab: 'app.hoon',
+    num: '02',
+    lang: 'hoon',
+    html: `<span class="cc">::  app.hoon  —  the only Hoon you write.</span>
+<span class="cc">::  five domain causes, ~5 lines each.</span>
+
+<span class="cr">++</span>  <span class="ck">issue-license</span>
+  <span class="cr">|=</span>  [<span class="ck">holder</span>=<span class="ca">@ux</span>  <span class="ck">terms</span>=<span class="ca">@t</span>]
+  <span class="cr">^-</span>  (<span class="ck">list</span> <span class="ck">effect</span>)
+  <span class="cr">?&gt;</span>  (<span class="ck">is-admin</span> <span class="ck">src</span>.<span class="ck">bowl</span>)
+  <span class="cr">=/</span>  <span class="ck">id</span>=<span class="ca">@ud</span>  (<span class="ck">next-id</span> <span class="ck">registry</span>)
+  <span class="cc">::  registry-graft remembers; log-graft trails;</span>
+  <span class="cc">::  settle-graft commits the merkle root.</span>
+  :~  [<span class="cs">%registry-put</span> <span class="ck">id</span> <span class="ck">holder</span> <span class="ck">terms</span>]
+      [<span class="cs">%log-append</span> <span class="cs">%license-issued</span> <span class="ck">id</span>]
+      [<span class="cs">%settle-note</span> <span class="ck">id</span> (<span class="ck">commit</span> <span class="ck">terms</span>)]
+  ==`,
+  },
+  {
+    tab: 'main.rs',
+    num: '03',
+    lang: 'rust',
+    html: `<span class="cc">// main.rs — typed Rust at every seam.</span>
+<span class="cc">// No noun construction. No drift surprises.</span>
+
+<span class="cr">use</span> vesl_core::&#123;Mint, build_issue_license_poke, PokeOutcome&#125;;
+<span class="cr">use</span> vesl_test::Harness;
+
+<span class="cr">#[</span>tokio::main<span class="cr">]</span>
+<span class="cr">async fn</span> <span class="ck">main</span>() -&gt; Result&lt;()&gt; &#123;
+    <span class="cr">let</span> app = vesl_hull::serve(<span class="cs">"out.jam"</span>).<span class="ck">await</span>?;
+    <span class="cr">let</span> holder = pubkey_from_hex(<span class="cs">"0xa2c1..."</span>);
+
+    <span class="cr">let</span> poke = build_issue_license_poke(holder, <span class="cs">b"v1: MIT"</span>);
+    <span class="cr">match</span> app.poke(SystemWire.to_wire(), poke).<span class="ck">await</span>? &#123;
+        PokeOutcome::Accepted &#123; effects &#125; =&gt; print_effects(effects),
+        PokeOutcome::Rejected &#123; reason &#125;  =&gt; eprintln!(<span class="cs">"deny: &#123;reason&#125;"</span>),
+        PokeOutcome::Crashed  &#123; error  &#125;  =&gt; panic!(<span class="cs">"&#123;error&#125;"</span>),
+    &#125;
+    Ok(())
+&#125;`,
+  },
+  {
+    tab: '/status',
+    num: '04',
+    lang: 'json',
+    html: `<span class="cc">// GET /status  —  build provenance at the HTTP layer.</span>
+&#123;
+  <span class="ck">"hull_id"</span>:         <span class="cs">"license-registry"</span>,
+  <span class="ck">"notes_settled"</span>:   <span class="cn">1247</span>,
+  <span class="ck">"settlement_mode"</span>: <span class="cs">"merkle-schnorr"</span>,
+  <span class="ck">"gate"</span>:            <span class="cs">"sig-verify-schnorr ∘ manifest-verify"</span>,
+  <span class="ck">"grafts"</span>: [<span class="cs">"settle"</span>, <span class="cs">"rbac"</span>, <span class="cs">"registry"</span>, <span class="cs">"log"</span>, <span class="cs">"batch"</span>],
+  <span class="ck">"manifest_shas"</span>: &#123;
+    <span class="ck">"settle"</span>:   <span class="cs">"sha256:7f3a...e1b2"</span>,
+    <span class="ck">"rbac"</span>:     <span class="cs">"sha256:c801...44ab"</span>,
+    <span class="ck">"registry"</span>: <span class="cs">"sha256:9d2c...77f4"</span>,
+    <span class="ck">"log"</span>:      <span class="cs">"sha256:1e6f...3d09"</span>,
+    <span class="ck">"batch"</span>:    <span class="cs">"sha256:b4a1...5c20"</span>
+  &#125;
+&#125;
+<span class="cc">// grep manifest_shas against \`nockup graft inject\` output.</span>
+<span class="cc">// what you composed is what you're running.</span>`,
+  },
+];
+
+const captions = [
+  'compose grafts in <code>nockapp.toml</code>',
+  'write five lines of Hoon per cause',
+  'drive the kernel from typed Rust',
+  'verify the running build via <code>/status</code>',
+];
+---
+
+<div class="code-panel" aria-label="Vesl in four panels" data-captions={JSON.stringify(captions)}>
+  <div class="code-panel-frame">
+    <header class="code-panel-head">
+      <div class="code-panel-rune" aria-hidden="true">|%</div>
+      <div class="code-panel-title">
+        <span class="code-panel-eyebrow">::  the four surfaces</span>
+        <span class="code-panel-caption" data-caption set:html={captions[0]} />
+      </div>
+      <div class="code-panel-progress" aria-hidden="true">
+        <span class="code-panel-progress-fill" data-progress></span>
+      </div>
+    </header>
+
+    <div class="code-panel-tabs" role="tablist">
+      {panes.map((p, i) => (
+        <button
+          class:list={['code-tab', { 'is-active': i === 0 }]}
+          role="tab"
+          data-tab={i}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          <span class="code-tab-num">{p.num}</span>
+          <span class="code-tab-name">{p.tab}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="code-panel-body">
+      {panes.map((p, i) => (
+        <pre
+          class:list={['code-pane', { 'is-active': i === 0 }]}
+          data-pane={i}
+          data-lang={p.lang}
+          set:html={p.html}
+        />
+      ))}
+    </div>
+
+    <footer class="code-panel-foot">
+      <span class="code-panel-marker">@ud  04</span>
+      <span class="code-panel-step" data-step>panel 01 of 04</span>
+      <button class="code-panel-pause" data-pause aria-label="pause rotation">
+        <span data-pause-icon>‖</span>
+      </button>
+    </footer>
+  </div>
+</div>
+
+<style>
+  .code-panel {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .code-panel-frame {
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-shade);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .code-panel-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, var(--accent-glow) 0%, transparent 14%, transparent 86%, var(--accent-glow) 100%);
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  /* head */
+  .code-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.2rem 0.65rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    z-index: 1;
+  }
+
+  .code-panel-rune {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  .code-panel-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .code-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
+  .code-panel-caption {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: var(--ink);
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: opacity 0.25s ease;
+  }
+
+  .code-panel-caption :global(code) {
+    background: var(--accent-soft);
+    color: var(--ink);
+    padding: 1px 5px;
+    border-radius: 1px;
+    font-size: 0.82rem;
+  }
+
+  .code-panel-caption.flip {
+    opacity: 0;
+  }
+
+  .code-panel-progress {
+    flex-shrink: 0;
+    width: 56px;
+    height: 2px;
+    background: var(--rule);
+    overflow: hidden;
+    align-self: center;
+  }
+
+  .code-panel-progress-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.1s linear;
+  }
+
+  /* tabs */
+  .code-panel-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .code-panel-tabs::-webkit-scrollbar { display: none; }
+
+  .code-tab {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--rule);
+    padding: 0.7rem 1.1rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    flex-shrink: 0;
+    transition: color 0.18s ease, background 0.18s ease;
+    position: relative;
+  }
+
+  .code-tab:last-child { border-right: none; }
+
+  .code-tab:hover {
+    color: var(--ink);
+    background: var(--accent-soft);
+  }
+
+  .code-tab.is-active {
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .code-tab.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .code-tab-num {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+  }
+
+  .code-tab-name {
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+
+  /* body */
+  .code-panel-body {
+    position: relative;
+    z-index: 1;
+    background: var(--paper);
+    min-height: 320px;
+  }
+
+  .code-pane {
+    display: none;
+    margin: 0;
+    padding: 1.5rem 1.6rem 1.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule-strong) transparent;
+  }
+
+  .code-pane.is-active {
+    display: block;
+    animation: code-line-cascade 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes code-line-cascade {
+    0%   { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* syntax */
+  .code-pane :global(.cc) { color: var(--muted); font-style: italic; }
+  .code-pane :global(.ck) { color: var(--ink); font-weight: 500; }
+  .code-pane :global(.cs) { color: var(--accent); }
+  .code-pane :global(.cn) { color: var(--accent); font-weight: 500; }
+  .code-pane :global(.cl) { color: var(--ink); font-weight: 600; letter-spacing: -0.005em; }
+  .code-pane :global(.cr) { color: var(--ink); font-weight: 600; }
+  .code-pane :global(.ca) {
+    color: var(--ink-soft);
+    background: var(--accent-soft);
+    padding: 0 3px;
+    border-radius: 1px;
+  }
+
+  /* foot */
+  .code-panel-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 1.2rem;
+    border-top: 1px solid var(--rule);
+    background: var(--paper-shade);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .code-panel-marker {
+    color: var(--accent);
+  }
+
+  .code-panel-pause {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.05rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    border-radius: 1px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+    line-height: 1.2;
+    min-width: 28px;
+  }
+
+  .code-panel-pause:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .code-panel-pause.is-paused {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* mobile */
+  @media (max-width: 700px) {
+    .code-panel-head {
+      padding: 0.7rem 0.9rem 0.55rem;
+      gap: 0.7rem;
+    }
+    .code-panel-rune { font-size: 1.2rem; }
+    .code-panel-caption { font-size: 0.78rem; }
+    .code-panel-eyebrow { font-size: 0.66rem; }
+    .code-panel-progress { width: 40px; }
+    .code-tab { padding: 0.6rem 0.85rem; }
+    .code-tab-name { font-size: 0.76rem; }
+    .code-tab-num { font-size: 0.58rem; }
+    .code-pane {
+      padding: 1.1rem 1.1rem 1.3rem;
+      font-size: 0.74rem;
+      line-height: 1.7;
+      min-height: 280px;
+    }
+    .code-panel-body { min-height: 280px; }
+    .code-panel-foot {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.66rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .code-pane.is-active { animation: none; }
+    .code-panel-progress-fill { transition: none; }
+    .code-panel-caption { transition: none; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.code-panel');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('.code-tab'));
+    const panes = Array.from(root.querySelectorAll<HTMLElement>('.code-pane'));
+    const captionEl = root.querySelector<HTMLElement>('[data-caption]');
+    const progressEl = root.querySelector<HTMLElement>('[data-progress]');
+    const stepEl = root.querySelector<HTMLElement>('[data-step]');
+    const pauseBtn = root.querySelector<HTMLButtonElement>('[data-pause]');
+    const pauseIcon = root.querySelector<HTMLElement>('[data-pause-icon]');
+
+    let captions: string[] = [];
+    try {
+      captions = JSON.parse(root.dataset.captions || '[]');
+    } catch { /* leave empty */ }
+
+    const DURATION_MS = 6000;
+    const TICK_MS = 60;
+
+    let current = 0;
+    let paused = false;
+    let elapsed = 0;
+    let tickHandle: ReturnType<typeof setInterval> | null = null;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setActive(i: number, userTriggered = false) {
+      if (i === current && !userTriggered) return;
+      const prev = current;
+      current = i;
+
+      tabs.forEach((t, idx) => {
+        const on = idx === i;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panes.forEach((p, idx) => p.classList.toggle('is-active', idx === i));
+
+      if (captionEl && captions[i]) {
+        if (prev !== i && !prefersReducedMotion) {
+          captionEl.classList.add('flip');
+          setTimeout(() => {
+            captionEl.innerHTML = captions[i];
+            captionEl.classList.remove('flip');
+          }, 180);
+        } else {
+          captionEl.innerHTML = captions[i];
+        }
+      }
+
+      if (stepEl) {
+        stepEl.textContent = `panel ${String(i + 1).padStart(2, '0')} of ${String(tabs.length).padStart(2, '0')}`;
+      }
+
+      elapsed = 0;
+      if (progressEl) progressEl.style.width = '0%';
+    }
+
+    function advance() {
+      setActive((current + 1) % tabs.length);
+    }
+
+    function tick() {
+      if (paused) return;
+      elapsed += TICK_MS;
+      if (progressEl) {
+        const pct = Math.min(100, (elapsed / DURATION_MS) * 100);
+        progressEl.style.width = pct + '%';
+      }
+      if (elapsed >= DURATION_MS) {
+        advance();
+      }
+    }
+
+    function startTicker() {
+      if (tickHandle != null) return;
+      tickHandle = setInterval(tick, TICK_MS);
+    }
+
+    function stopTicker() {
+      if (tickHandle != null) {
+        clearInterval(tickHandle);
+        tickHandle = null;
+      }
+    }
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => {
+        setActive(idx, true);
+        if (!paused) {
+          paused = true;
+          pauseBtn?.classList.add('is-paused');
+          if (pauseIcon) pauseIcon.textContent = '▶';
+        }
+      });
+    });
+
+    pauseBtn?.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.classList.toggle('is-paused', paused);
+      if (pauseIcon) pauseIcon.textContent = paused ? '▶' : '‖';
+      if (paused) {
+        if (progressEl) progressEl.style.width = '0%';
+        elapsed = 0;
+      }
+    });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) startTicker(); else stopTicker();
+        }
+      }, { threshold: 0.15 });
+      io.observe(root);
+    } else {
+      startTicker();
+    }
+
+    if (prefersReducedMotion) {
+      paused = true;
+      pauseBtn?.classList.add('is-paused');
+      if (pauseIcon) pauseIcon.textContent = '▶';
+      stopTicker();
+    }
+  }
+</script>
