@@ -1,0 +1,728 @@
+---
+import Layout from '../layouts/Layout.astro';
+import mark from '../assets/vesl-labs-mark.svg?raw';
+---
+
+<Layout title="vesl-labs">
+  <link slot="head" rel="preload" href="/fonts/plex-mono-500.woff2" as="font" type="font/woff2" crossorigin />
+  <script is:inline slot="head">document.documentElement.classList.add('build');</script>
+
+  <main class="labs">
+    <!-- intro -->
+    <section class="intro">
+      <h1 class="intro-mark"><Fragment set:html={mark} /></h1>
+
+      <p class="intro-head" data-type>Unsurprising computers.</p>
+      <p class="intro-sub" data-type>
+        ::  <span class="nw">vesl-labs</span> builds systems that give the same answer every time,
+        on any machine, and let anyone check it.
+      </p>
+    </section>
+
+    <!--
+      The tree. vesl-labs is a core (|%) and each project an arm (++) in it; as a noun the core is the cell
+      [vesl-nockup integer]: /1 the whole, /2 its head, /3 its tail. At rest the leaves are only Hoon;
+      hovering an arm unfolds its preview out of the branch.
+    -->
+    <section class="tree" aria-label="vesl-labs and its two projects">
+      <svg class="limbs" aria-hidden="true">
+        <line class="trunk" x1="50%" y1="0" x2="50%" y2="64" pathLength="1" />
+        <line class="limb limb-head" x1="50%" y1="64" x2="25%" y2="100%" pathLength="1" />
+        <line class="limb limb-tail" x1="50%" y1="64" x2="75%" y2="100%" pathLength="1" />
+        <rect class="node node-root" x="50%" y="64" width="7" height="7" transform="translate(-3.5 -3.5)" />
+        <rect class="node node-head" x="25%" y="100%" width="7" height="7" transform="translate(-3.5 -3.5)" />
+        <rect class="node node-tail" x="75%" y="100%" width="7" height="7" transform="translate(-3.5 -3.5)" />
+        <text class="axis" x="50%" y="64" dx="14" dy="4">/1</text>
+        <text class="axis rune" x="50%" y="64" dx="-14" dy="4" text-anchor="end">|%</text>
+        <text class="axis axis-leaf" x="25%" y="100%" dx="12" dy="4">/2</text>
+        <text class="axis axis-leaf" x="75%" y="100%" dx="12" dy="4">/3</text>
+      </svg>
+
+      <div class="leaves">
+        <div class="leaf leaf-head">
+          <a class="twig twig-nockup" href="/nockup"
+             aria-label="vesl-nockup: open-source primitives and tooling for building verifiable NockApps">
+            <pre class="arm" aria-hidden="true" data-type><span class="r">++</span>  <span class="n">vesl-nockup</span>
+  <span class="c">::  primitives and tooling</span>
+  <span class="c">::  for verifiable apps.</span>
+  <span class="r">|*</span>  [app=gate root=@]
+  <span class="r">|=</span>  [dat=@ pof=(list [@ ?])]
+  <span class="r">?&gt;</span>  (verify-chunk dat pof root)
+  <span class="r">=/</span>  out  (app dat)
+  [out (hash-leaf (jam out))]</pre>
+
+            <div class="more"><div class="more-in">
+              <div class="card card-nockup">
+                <header class="card-top">
+                  <span class="card-num">/2</span>
+                  <span class="card-tag">open source</span>
+                </header>
+
+                <div class="nockup-mark">
+                  <span class="nockup-rune">++</span>
+                  <span class="nockup-name">vesl-nockup</span>
+                </div>
+
+                <p class="card-line">
+                  ::  Primitives and tooling for building verifiable NockApps on Nockchain.
+                  Compose commitments, proofs and state into one deterministic kernel.
+                </p>
+
+                <div class="nockup-stamps">
+                  <span class="stamp"><span class="stamp-rune">@ud</span><span class="stamp-val">v0.1</span></span>
+                  <span class="stamp stamp-accent"><span class="stamp-rune">@flag</span><span class="stamp-val">in-progress</span></span>
+                </div>
+
+                <footer class="card-go">
+                  <span>zkvesl.org/nockup</span>
+                  <span class="card-arrow">→</span>
+                </footer>
+              </div>
+            </div></div>
+          </a>
+        </div>
+
+        <div class="leaf leaf-tail">
+          <a class="twig twig-integer" href="https://integer.run"
+             aria-label="INTEGER: the integrity layer for intelligent machines. Coming soon at integer.run">
+            <pre class="arm" aria-hidden="true" data-type><span class="r">++</span>  <span class="n">integer</span>
+  <span class="c">::  the integrity layer</span>
+  <span class="c">::  for intelligent machines</span>
+  <span class="r">|=</span>  [model=nock prompt=* answer=*]
+  <span class="r">^-</span>  lock-primitive
+  <span class="r">=/</span>  replay  [<span class="k">7</span> [<span class="k">1</span> prompt] model]
+  <span class="r">=-</span>  [<span class="t">%zkp</span> (hash-noun-varlen:tip5 -)]
+  [<span class="k">6</span> [<span class="k">5</span> replay [<span class="k">1</span> answer]] [<span class="k">1</span> <span class="k">1</span>] [<span class="k">1</span> <span class="k">0</span>]]</pre>
+
+            <div class="more"><div class="more-in">
+              <div class="card card-integer">
+                <header class="card-top">
+                  <span class="card-num">/3</span>
+                  <span class="card-tag">commercial</span>
+                </header>
+
+                <div class="int-lockup">
+                  <img src="/integer-wordmark.svg" width="303.6" height="39.1" alt="" />
+                  <span class="int-tagline">The integrity layer for intelligent machines</span>
+                </div>
+
+                <p class="int-head">Answers that hold up to audit.</p>
+                <p class="int-soon"><span class="int-bar"></span>Coming soon</p>
+
+                <footer class="card-go">
+                  <span>integer.run</span>
+                  <span class="card-arrow">↗</span>
+                </footer>
+              </div>
+            </div></div>
+          </a>
+        </div>
+      </div>
+
+      <p class="core-end" aria-hidden="true">--</p>
+    </section>
+
+    <!-- footer -->
+    <footer class="foot">
+      <div class="foot-brand">
+        <span class="foot-rune" aria-hidden="true">++</span>
+        <span class="foot-mark">vesl-labs</span>
+      </div>
+      <nav class="foot-nav" aria-label="footer">
+        <a href="https://github.com/zkvesl">github</a>
+      </nav>
+      <p class="foot-meta" aria-hidden="true">@tas  vesl-labs  ·  [vesl-nockup integer]  ·  @da  ~2026.10.25</p>
+    </footer>
+  </main>
+
+  <script is:inline>
+    // The build-on. The mark writes itself first (CSS, --t-mark..); then everything below writes on top-down, each
+    // step starting when the one above ends. Text is typed by wrapping each character in a span that switches on at
+    // its moment, so nothing reflows while it types. Times land in CSS variables on .labs.
+    (() => {
+      if (!document.documentElement.classList.contains('build')) return;
+      const labs = document.querySelector('.labs');
+      const set = (k, v) => labs.style.setProperty(k, v.toFixed(3) + 's');
+      const type = (el, t, rate) => {
+        const walk = (node) => {
+          for (const child of [...node.childNodes]) {
+            if (child.nodeType === 1) { walk(child); continue; }
+            if (child.nodeType !== 3) continue;
+            const frag = document.createDocumentFragment();
+            for (const ch of child.textContent) {
+              if (/\s/.test(ch)) { frag.append(ch); continue; }
+              const c = document.createElement('span');
+              c.className = 'ch';
+              c.textContent = ch;
+              c.style.animationDelay = t.toFixed(3) + 's';
+              frag.append(c);
+              t += rate;
+            }
+            child.replaceWith(frag);
+          }
+        };
+        walk(el);
+        el.classList.add('typed');
+        return t;
+      };
+  
+      let t = 2.15;                                            // the mark has written "vesl labs" by now
+      set('--t-box', t);
+      t = type(document.querySelector('.intro-head'), t + 0.1, 0.03);
+      t = type(document.querySelector('.intro-sub'), t + 0.08, 0.008);
+      set('--d-box', t - 2.15 + 0.1);                          // the box finishes drawing as the copy does
+      t += 0.15;  set('--t-trunk', t);
+      t += 0.3;   set('--t-root', t);
+      t += 0.1;   set('--t-limbs', t);
+      t += 0.5;   set('--t-ends', t);
+      t += 0.12;
+      t = Math.max(...[...document.querySelectorAll('.arm')].map((arm) => type(arm, t, 0.006)));
+      t += 0.12;  set('--t-close', t);
+      t += 0.2;   set('--t-foot', t);
+    })();
+  
+    // ?open=2 or ?open=3 holds that arm's preview open (for review links and stills)
+    const open = new URLSearchParams(location.search).get('open');
+    const twig = { '2': '.twig-nockup', '3': '.twig-integer' }[open ?? ''];
+    if (twig) document.querySelector(twig)?.setAttribute('data-open', '');
+  </script>
+</Layout>
+
+
+
+<style>
+  @font-face {
+    font-family: 'INT Mono';
+    src: url('/fonts/plex-mono-500.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+  }
+
+  .labs {
+    /* INTEGER's own palette, used only on its preview */
+    --int-paper: #efe7da;
+    --int-ink:   #221e1b;
+    --int-muted: #8a7f74;
+    --int-rule:  #d6cbbb;
+    --int-spot:  #f67f3a;
+    --int-spot-soft: rgba(246, 127, 58, 0.16);
+    --int-carbon: rgba(63, 61, 64, 0.6);
+    --int-font: 'INT Mono', 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    /* the mark's own timing; everything after it is set by the build script */
+    --t-mark: 0.1s;
+    --t-slide: 0.75s;
+    --t-letters: 1.5s;
+    --card-w: min(440px, calc(100vw - 3rem));
+
+    max-width: 1040px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: clamp(3rem, 9vh, 6.5rem) 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── intro ─────────────────────────────────────────────────── */
+  .intro {
+    position: relative;
+    width: min(100%, 760px);
+    margin: 0 auto;
+    padding: clamp(2rem, 5vh, 3rem) clamp(1.2rem, 4vw, 3rem) clamp(1.8rem, 4.5vh, 2.6rem);
+    text-align: center;
+  }
+
+  .intro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .intro-mark { margin-bottom: clamp(2rem, 5vh, 3rem); line-height: 0; }
+
+  .intro-mark :global(.mark) {
+    width: clamp(200px, 26vw, 260px);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .intro-head {
+    font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.1rem;
+  }
+
+  .intro-sub {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    line-height: 1.75;
+    color: var(--ink);
+    opacity: 0.82;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ─── the tree ──────────────────────────────────────────────── */
+  .tree { margin-bottom: auto; }
+
+  .limbs {
+    display: block;
+    width: 100%;
+    height: clamp(150px, 21vh, 200px);
+    overflow: visible;
+    margin-bottom: 1.1rem;
+  }
+
+  .limbs line {
+    stroke: var(--rule-strong);
+    stroke-width: 1;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: grow 0.5s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    transition: stroke 0.18s ease;
+  }
+
+  .limbs .trunk { animation-delay: var(--t-trunk, 0.3s); animation-duration: 0.3s; }
+  .limbs .limb { animation-delay: var(--t-limbs, 0.6s); }
+
+  .node {
+    fill: var(--paper);
+    stroke: var(--rule-strong);
+    stroke-width: 1;
+    opacity: 0;
+    animation: appear 0.3s ease forwards;
+    transition: fill 0.18s ease, stroke 0.18s ease;
+  }
+
+  .node-root { fill: var(--accent); stroke: var(--accent); animation-delay: var(--t-root, 0.55s); }
+  .node-head, .node-tail { animation-delay: var(--t-ends, 1.05s); }
+
+  .axis {
+    fill: var(--accent);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: appear 0.3s ease var(--t-root, 0.6s) forwards;
+  }
+
+  .axis.rune { font-weight: 600; font-size: 0.8rem; }
+  .axis-leaf { fill: var(--muted); animation-delay: var(--t-ends, 1.05s); transition: fill 0.18s ease; }
+
+  @keyframes grow { to { stroke-dashoffset: 0; } }
+  @keyframes appear { to { opacity: 1; } }
+
+  /* an open arm lights its limb */
+  .tree:has(.twig-nockup:is(:hover, :focus-visible, [data-open])) .limb-head { stroke: var(--accent); }
+  .tree:has(.twig-nockup:is(:hover, :focus-visible, [data-open])) .node-head { stroke: var(--accent); fill: var(--accent); }
+  .tree:has(.twig-integer:is(:hover, :focus-visible, [data-open])) .limb-tail { stroke: var(--int-spot); }
+  .tree:has(.twig-integer:is(:hover, :focus-visible, [data-open])) .node-tail { stroke: var(--int-spot); fill: var(--int-spot); }
+  .tree:has(.twig-nockup:is(:hover, :focus-visible, [data-open])) .axis-leaf:nth-of-type(3) { fill: var(--accent); }
+  .tree:has(.twig-integer:is(:hover, :focus-visible, [data-open])) .axis-leaf:nth-of-type(4) { fill: var(--int-spot); }
+
+  /* each leaf hangs centred under its limb (columns meet with no gap, so limbs end at 25% and 75%) */
+  .leaves {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  .leaf {
+    display: flex;
+    justify-content: center;
+    padding: 0 0.6rem;
+  }
+
+  /* a twig: the arm, and the preview folded under it */
+  .twig {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--ink);
+    text-decoration: none;
+    outline: none;
+  }
+
+  .twig:hover { text-decoration: none; }
+
+  /* the arm: Hoon at rest */
+  .arm {
+    font-family: var(--font-mono);
+    font-size: 0.96rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    padding: 0.35rem 0.7rem;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .arm .r { color: var(--accent); font-weight: 600; }
+  .arm .n { color: var(--ink); font-weight: 600; }
+  .arm .t { color: var(--accent-bright); }
+  .arm .k { color: var(--accent); }
+  .arm .c { color: var(--muted); }
+
+  .twig-nockup:is(:hover, :focus-visible, [data-open]) .arm { border-color: var(--accent-rule); background: var(--accent-soft); }
+  .twig-integer:is(:hover, :focus-visible, [data-open]) .arm { border-color: rgba(246, 127, 58, 0.4); background: var(--int-spot-soft); }
+  .twig-integer:is(:hover, :focus-visible, [data-open]) .arm .r,
+  .twig-integer:is(:hover, :focus-visible, [data-open]) .arm .k,
+  .twig-integer:is(:hover, :focus-visible, [data-open]) .arm .t { color: var(--int-spot); }
+  .twig:focus-visible .arm { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* the preview unfolds from the node: down (rows) and outwards (width) at once */
+  .more {
+    display: grid;
+    grid-template-rows: 0fr;
+    grid-template-columns: minmax(0, 1fr);
+    width: var(--card-w);
+    max-width: 0;
+    margin-top: 0;
+    transition: grid-template-rows 0.45s var(--ease), max-width 0.45s var(--ease), margin 0.45s var(--ease);
+  }
+
+  .more-in {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;   /* the card overflows evenly, so the clip opens from the middle */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .twig:is(:hover, :focus-visible, [data-open]) .more {
+    grid-template-rows: 1fr;
+    max-width: var(--card-w);
+    margin-top: 1rem;
+  }
+
+  .twig:is(:hover, :focus-visible, [data-open]) .more-in { opacity: 1; transition: opacity 0.3s ease 0.1s; }
+
+  .core-end {
+    text-align: center;
+    color: var(--muted-soft);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-top: 2.2rem;
+    opacity: 0;
+    animation: appear 0.4s ease var(--t-close, 1.2s) forwards;
+  }
+
+  /* ─── previews ─────────────────────────────────────────────── */
+  .card {
+    width: var(--card-w);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem 1.6rem 1.35rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 1px;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .card-go {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 0.9rem;
+    font-size: 0.84rem;
+    letter-spacing: 0.01em;
+  }
+
+  .card-arrow { transition: transform 0.18s ease; }
+  .twig:hover .card-arrow { transform: translateX(3px); }
+  .twig-integer:hover .card-arrow { transform: translate(2px, -2px); }
+
+  /* vesl-nockup: the vesl side, dark with the green accent */
+  .card-nockup {
+    background: var(--paper-shade);
+    border-color: var(--accent-rule);
+    box-shadow: inset 0 0 60px var(--accent-glow);
+  }
+
+  .card-nockup .card-num { color: var(--accent); }
+  .card-nockup .card-tag { color: var(--muted); }
+  .card-nockup .card-go { border-top: 1px dashed var(--rule); }
+  .card-nockup .card-arrow { color: var(--accent); }
+
+  .nockup-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .nockup-rune { color: var(--accent); }
+
+  .card-line {
+    font-size: 0.86rem;
+    line-height: 1.75;
+    opacity: 0.82;
+  }
+
+  .nockup-stamps { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .stamp {
+    display: inline-flex;
+    border: 1px solid var(--rule-strong);
+    border-radius: 1px;
+    font-size: 0.68rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .stamp-rune {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.3rem 0.45rem;
+    border-right: 1px solid var(--accent-rule);
+    letter-spacing: 0.04em;
+  }
+
+  .stamp-val { padding: 0.3rem 0.55rem; color: var(--ink); }
+  .stamp-accent { border-color: var(--accent-rule); }
+  .stamp-accent .stamp-val { color: var(--accent); }
+
+  /* INTEGER: a sheet of integer.run, in its own paper, ink and spot */
+  .card-integer {
+    background: var(--int-paper);
+    color: var(--int-ink);
+    border-color: var(--int-spot);
+    font-family: var(--int-font);
+    font-weight: 500;
+  }
+
+  .card-integer .card-num { color: var(--int-spot); }
+  .card-integer .card-tag { color: var(--int-muted); }
+  .card-integer .card-go { border-top: 1px dashed var(--int-rule); }
+  .card-integer .card-arrow { color: var(--int-spot); }
+
+  /* the lockup: the tagline's box spans the wordmark exactly, as on integer.run */
+  .int-lockup {
+    width: min(100%, 320px);
+    container-type: inline-size;
+    padding-bottom: 2px;
+  }
+
+  .int-lockup img { width: 100%; height: auto; display: block; }
+
+  .int-tagline {
+    display: block;
+    width: calc(100% - 1.2cqi);
+    margin-top: 3.6cqi;
+    border: 1px solid var(--int-ink);
+    box-shadow: 1.2cqi 1.2cqi 0 var(--int-carbon);
+    padding: 1.6cqi 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2.62cqi;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .int-head {
+    font-size: 1.2rem;
+    letter-spacing: -0.03em;
+    line-height: 1.3;
+  }
+
+  .int-soon {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .int-bar {
+    width: 1.6rem;
+    height: 0.4rem;
+    background: var(--int-spot);
+    flex-shrink: 0;
+  }
+
+  /* no hover (touch) or the outline tree: previews stay open under their arms */
+  @media (hover: none), (max-width: 820px) {
+    .more { grid-template-rows: 1fr; max-width: var(--card-w); margin-top: 1rem; }
+    .more-in { opacity: 1; }
+  }
+
+  /* ─── footer ────────────────────────────────────────────────── */
+  .foot {
+    margin-top: clamp(3rem, 8vh, 5rem);
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 1rem;
+    align-items: baseline;
+  }
+
+  .foot-brand { display: inline-flex; align-items: baseline; gap: 0.55rem; font-size: 0.86rem; }
+  .foot-rune { color: var(--accent); font-weight: 600; font-size: 1rem; }
+  .foot-mark { font-weight: 600; }
+
+  .foot-nav a {
+    color: var(--muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .foot-nav a:hover { color: var(--accent); }
+
+  .foot-meta {
+    grid-column: 1 / -1;
+    font-size: 0.7rem;
+    color: var(--muted);
+    opacity: 0.55;
+    letter-spacing: 0.02em;
+    white-space: pre-wrap;
+  }
+
+  /* ─── the build-on (.build is set before first paint; without script the page is simply there) ── */
+
+  /* 1. the ++ tile, alone and centred; 2. it slides left as the black unfolds from behind it (the pair stays
+     centred: the tile's left edge and the black's right edge move out together); 3. vesl labs writes on */
+  :global(.build) .intro-mark :global(.mark-tile) {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: tile-in 0.45s var(--ease) var(--t-mark) both,
+               tile-slide 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
+  }
+
+  :global(.build) .intro-mark :global(.mark-ground) {
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: ground-in 0.45s ease var(--t-mark) both,
+               ground-unfold 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
+  }
+
+  :global(.build) .intro-mark :global(.mark-glyph) {
+    opacity: 0;
+    animation: appear 0.01s linear forwards;
+    animation-delay: calc(var(--t-letters) + var(--i) * 0.075s);
+  }
+
+  @keyframes tile-in    { from { opacity: 0; scale: 0.86; } }
+  @keyframes tile-slide { from { translate: 124.4px 0; } to { translate: 0 0; } }
+  @keyframes ground-in  { from { opacity: 0; } }
+  @keyframes ground-unfold { from { translate: 124.4px 0; scale: 0.5 1; } to { translate: 0 0; scale: 1 1; } }
+
+  /* 4. the header box draws top-down while its copy types */
+  :global(.build) .intro::before {
+    clip-path: inset(0 0 100% 0);
+    animation: box-on var(--d-box, 1.6s) linear var(--t-box, 2.15s) forwards;
+  }
+
+  @keyframes box-on { to { clip-path: inset(0 0 0 0); } }
+
+  /* typed text: hidden until split, then each character switches on at its own moment */
+  :global(.build) [data-type]:not(.typed) { visibility: hidden; }
+  :global(.build) :global(.ch) { opacity: 0; animation: appear 0.01s linear forwards; }
+
+  /* 5-7. the tree (limbs, nodes, labels, arms) and the core's end take their times from the script; then the footer */
+  :global(.build) .foot { opacity: 0; animation: appear 0.5s ease var(--t-foot, 0s) forwards; }
+
+  /* The build plays in full under reduced motion too (as integer.run's opening does: it is the page's one
+     sequence, short and non-looping). Only the hover transitions are dropped. */
+  @media (prefers-reduced-motion: reduce) {
+    .more, .more-in, .arm, .card-arrow { transition: none !important; }
+  }
+
+  /* ─── narrow: the same tree, drawn as an outline (a spine from /1, a tick to each arm) ── */
+  @media (max-width: 820px) {
+    .limbs { display: none; }
+
+    .leaves {
+      --spine: 1.4rem;
+      --tick: 1.15rem;
+      grid-template-columns: 1fr;
+      row-gap: 1.6rem;
+      padding: 1.8rem 0 0 var(--spine);
+      position: relative;
+    }
+
+    .leaves { margin-left: 1.2rem; }   /* the spine drops from the header box, just inside its corner */
+
+    .leaves::before {
+      content: '|%  /1';
+      position: absolute;
+      left: 0.6rem;
+      top: 0.35rem;
+      color: var(--accent);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      white-space: pre;
+    }
+
+    .leaf { padding: 0; position: relative; justify-content: flex-start; }
+    .twig { align-items: flex-start; width: 100%; }
+    .arm { padding-left: 0.5rem; }
+    .card { width: 100%; }
+    .more { max-width: none; width: 100%; }
+
+    .leaf::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--spine));
+      top: -1.8rem;
+      width: var(--spine);
+      height: calc(1.8rem + var(--tick));
+      border-left: 1px solid var(--rule-strong);
+      border-bottom: 1px solid var(--rule-strong);
+    }
+
+    .leaf-tail::before { top: -1.6rem; height: calc(1.6rem + var(--tick)); }
+
+    :global(.build) .leaves::before, :global(.build) .leaf::before, :global(.build) .leaf-head::after {
+      opacity: 0;
+      animation: appear 0.3s ease var(--t-trunk, 0s) forwards;
+    }
+
+    .leaf-head::after {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--spine));
+      top: var(--tick);
+      bottom: -1.6rem;
+      border-left: 1px solid var(--rule-strong);
+    }
+
+    .core-end { text-align: left; margin-top: 1.4rem; }
+  }
+
+  @media (max-width: 640px) {
+    .labs { padding: 2.5rem 1rem 2rem; }
+    .arm { font-size: 0.76rem; }
+    .card { padding: 1.25rem 1.2rem 1.1rem; gap: 1.1rem; }
+    .nockup-mark { font-size: 1.6rem; }
+    .int-soon { font-size: 0.82rem; letter-spacing: 0.26em; }
+  }
+
+  @media (max-width: 400px) {
+    .arm { font-size: 0.72rem; padding-right: 0.3rem; }
+  }
+</style>

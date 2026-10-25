@@ -4,7 +4,8 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Primitives and tooling for verifiable apps. A growing catalog of composable grafts, verification gates, and Rust crates for Nockchain.' } = Astro.props;
+const { title, description = 'vesl-labs builds tools for verifiable computing: vesl-nockup, open-source primitives for NockApps, and INTEGER, the integrity layer for intelligent machines.' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -19,7 +20,8 @@ const { title, description = 'Primitives and tooling for verifiable apps. A grow
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://zkvesl.org" />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -34,6 +36,7 @@ const { title, description = 'Primitives and tooling for verifiable apps. A grow
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap"
     />
+    <slot name="head" />
 
     <title>{title}</title>
   </head>
@@ -112,6 +115,9 @@ const { title, description = 'Primitives and tooling for verifiable apps. A grow
   code, pre {
     font-family: var(--font-mono);
   }
+
+  /* keeps hyphenated names (vesl-nockup, vesl-labs) on one line */
+  .nw { white-space: nowrap; }
 
   ::selection {
     background: var(--accent);
