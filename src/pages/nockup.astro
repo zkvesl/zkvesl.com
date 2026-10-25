@@ -53,6 +53,8 @@ import CodePanel from '../components/CodePanel.astro';
           You write the application logic. <span class="nw">vesl-nockup</span> writes the crypto.
         </p>
 
+        <p class="hero-soon" data-reveal data-reveal-delay="2"><span class="hero-soon-bar" aria-hidden="true"></span>Coming soon</p>
+
         <div class="hero-cta" data-reveal data-reveal-delay="3">
           <a href="https://docs.zkvesl.org/setup/quickstart" class="btn btn-primary">
             <span>build</span>
@@ -556,6 +558,28 @@ import CodePanel from '../components/CodePanel.astro';
     opacity: 0.82;
     max-width: 640px;
     margin-bottom: 2rem;
+  }
+
+  /* coming soon, as integer.run states it (bar + spaced capitals), in the vesl green */
+  .hero-soon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .hero-soon-bar {
+    width: 2rem;
+    height: 0.45rem;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+    flex-shrink: 0;
   }
 
   .hero-cta {

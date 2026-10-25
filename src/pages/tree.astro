@@ -72,6 +72,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
                   <span class="stamp"><span class="stamp-rune">@ud</span><span class="stamp-val">v0.1</span></span>
                   <span class="stamp stamp-accent"><span class="stamp-rune">@flag</span><span class="stamp-val">in-progress</span></span>
                 </div>
+                <p class="nockup-soon"><span class="nockup-bar"></span>Coming soon</p>
 
                 <footer class="card-go">
                   <span>zkvesl.org/nockup</span>
@@ -138,11 +139,17 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
   <script is:inline>
     // The build-on. The mark writes itself first (CSS, --t-mark..); then everything below writes on top-down, each
     // step starting when the one above ends. Text is typed by wrapping each character in a span that switches on at
-    // its moment, so nothing reflows while it types. Times land in CSS variables on .labs.
+    // its moment, so nothing reflows while it types. The schedule is written at an even pace (t), then played
+    // through warp(): its rate falls away exponentially, so the opening keeps its pace and every step after comes
+    // faster than the last (about 6.3 s of schedule resolves in about 3 s). Times land in CSS variables on .labs.
     (() => {
       if (!document.documentElement.classList.contains('build')) return;
       const labs = document.querySelector('.labs');
-      const set = (k, v) => labs.style.setProperty(k, v.toFixed(3) + 's');
+      const K = 0.27;
+      const warp = (t) => (1 - Math.exp(-K * t)) / K;
+      const sec = (v) => v.toFixed(3) + 's';
+      const at = (k, t) => labs.style.setProperty(k, sec(warp(t)));               // a moment
+      const span = (k, t0, t1) => labs.style.setProperty(k, sec(warp(t1) - warp(t0)));  // a duration
       const type = (el, t, rate) => {
         const walk = (node) => {
           for (const child of [...node.childNodes]) {
@@ -154,7 +161,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
               const c = document.createElement('span');
               c.className = 'ch';
               c.textContent = ch;
-              c.style.animationDelay = t.toFixed(3) + 's';
+              c.style.animationDelay = sec(warp(t));
               frag.append(c);
               t += rate;
             }
@@ -166,19 +173,25 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
         return t;
       };
   
+      // the mark: the ++ tile alone, the slide, then vesl labs letter by letter
+      at('--t-mark', 0.1);    span('--d-mark', 0.1, 0.55);
+      at('--t-slide', 0.75);  span('--d-slide', 0.75, 1.45);
+      document.querySelectorAll('.mark-glyph').forEach((g, i) => { g.style.animationDelay = sec(warp(1.5 + i * 0.075)); });
+
       let t = 2.15;                                            // the mark has written "vesl labs" by now
-      set('--t-box', t);
+      const box = t;
+      at('--t-box', t);
       t = type(document.querySelector('.intro-head'), t + 0.1, 0.03);
       t = type(document.querySelector('.intro-sub'), t + 0.08, 0.008);
-      set('--d-box', t - 2.15 + 0.1);                          // the box finishes drawing as the copy does
-      t += 0.15;  set('--t-trunk', t);
-      t += 0.3;   set('--t-root', t);
-      t += 0.1;   set('--t-limbs', t);
-      t += 0.5;   set('--t-ends', t);
+      span('--d-box', box, t + 0.1);                           // the box finishes drawing as the copy does
+      t += 0.15;  at('--t-trunk', t);  span('--d-trunk', t, t + 0.3);
+      t += 0.3;   at('--t-root', t);   span('--d-node', t, t + 0.3);
+      t += 0.1;   at('--t-limbs', t);  span('--d-limbs', t, t + 0.5);
+      t += 0.5;   at('--t-ends', t);
       t += 0.12;
       t = Math.max(...[...document.querySelectorAll('.arm')].map((arm) => type(arm, t, 0.006)));
-      t += 0.12;  set('--t-close', t);
-      t += 0.2;   set('--t-foot', t);
+      t += 0.12;  at('--t-close', t);
+      t += 0.2;   at('--t-foot', t);   span('--d-foot', t, t + 0.5);
     })();
   
     // The leaves. With a real pointer (wide screens) hovering an arm opens it and its preview. Without one (touch,
@@ -346,11 +359,11 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
     stroke-width: 1;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: grow 0.5s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    animation: grow var(--d-limbs, 0.5s) cubic-bezier(0.45, 0, 0.2, 1) forwards;
     transition: stroke 0.18s ease;
   }
 
-  .limbs .trunk { animation-delay: var(--t-trunk, 0.3s); animation-duration: 0.3s; }
+  .limbs .trunk { animation-delay: var(--t-trunk, 0.3s); animation-duration: var(--d-trunk, 0.3s); }
   .limbs .limb { animation-delay: var(--t-limbs, 0.6s); }
 
   .node {
@@ -358,7 +371,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
     stroke: var(--rule-strong);
     stroke-width: 1;
     opacity: 0;
-    animation: appear 0.3s ease forwards;
+    animation: appear var(--d-node, 0.3s) ease forwards;
     transition: fill 0.18s ease, stroke 0.18s ease;
   }
 
@@ -370,7 +383,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     opacity: 0;
-    animation: appear 0.3s ease var(--t-root, 0.6s) forwards;
+    animation: appear var(--d-node, 0.3s) ease var(--t-root, 0.6s) forwards;
   }
 
   .axis.rune { font-weight: 600; font-size: 0.8rem; }
@@ -541,6 +554,25 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
 
   .nockup-stamps { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
+  /* coming soon, as INTEGER's (bar + spaced capitals), in the vesl green */
+  .nockup-soon {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .nockup-bar {
+    width: 1.6rem;
+    height: 0.4rem;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    flex-shrink: 0;
+  }
+
   .stamp {
     display: inline-flex;
     border: 1px solid var(--rule-strong);
@@ -663,15 +695,15 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
   :global(.build) .intro-mark :global(.mark-tile) {
     transform-box: fill-box;
     transform-origin: center;
-    animation: tile-in 0.45s var(--ease) var(--t-mark) both,
-               tile-slide 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
+    animation: tile-in var(--d-mark, 0.45s) var(--ease) var(--t-mark) both,
+               tile-slide var(--d-slide, 0.7s) cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
   }
 
   :global(.build) .intro-mark :global(.mark-ground) {
     transform-box: fill-box;
     transform-origin: left center;
-    animation: ground-in 0.45s ease var(--t-mark) both,
-               ground-unfold 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
+    animation: ground-in var(--d-mark, 0.45s) ease var(--t-mark) both,
+               ground-unfold var(--d-slide, 0.7s) cubic-bezier(0.65, 0, 0.35, 1) var(--t-slide) both;
   }
 
   :global(.build) .intro-mark :global(.mark-glyph) {
@@ -698,7 +730,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
   :global(.build) :global(.ch) { opacity: 0; animation: appear 0.01s linear forwards; }
 
   /* 5-7. the tree (limbs, nodes, labels, arms) and the core's end take their times from the script; then the footer */
-  :global(.build) .foot { opacity: 0; animation: appear 0.5s ease var(--t-foot, 0s) forwards; }
+  :global(.build) .foot { opacity: 0; animation: appear var(--d-foot, 0.5s) ease var(--t-foot, 0s) forwards; }
 
   /* The build plays in full under reduced motion too (as integer.run's opening does: it is the page's one
      sequence, short and non-looping). Only the hover transitions are dropped. */
@@ -775,7 +807,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
     .arm { font-size: 0.76rem; }
     .card { padding: 1.25rem 1.2rem 1.1rem; gap: 1.1rem; }
     .nockup-mark { font-size: 1.6rem; }
-    .int-soon { font-size: 0.82rem; letter-spacing: 0.26em; }
+    .int-soon, .nockup-soon { font-size: 0.82rem; letter-spacing: 0.26em; }
   }
 
   @media (max-width: 400px) {

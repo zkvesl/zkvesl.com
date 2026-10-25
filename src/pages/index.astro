@@ -41,6 +41,8 @@ import Layout from '../layouts/Layout.astro';
           <span class="stamp stamp-accent"><span class="stamp-rune">@flag</span><span class="stamp-val">in-progress</span></span>
         </div>
 
+        <p class="nockup-soon"><span class="nockup-bar"></span>Coming soon</p>
+
         <footer class="card-go">
           <span>zkvesl.org/nockup</span>
           <span class="card-arrow" aria-hidden="true">→</span>
@@ -224,6 +226,25 @@ import Layout from '../layouts/Layout.astro';
 
   .nockup-stamps { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
+  /* coming soon, as INTEGER's (bar + spaced capitals), in the vesl green */
+  .nockup-soon {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .nockup-bar {
+    width: 1.6rem;
+    height: 0.4rem;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    flex-shrink: 0;
+  }
+
   .stamp {
     display: inline-flex;
     border: 1px solid var(--rule-strong);
@@ -365,6 +386,6 @@ import Layout from '../layouts/Layout.astro';
   @media (max-width: 640px) {
     .labs { padding: 2.5rem 1rem 2rem; }
     .card { padding: 1.25rem 1.2rem 1.1rem; gap: 1.1rem; }
-    .int-soon { font-size: 0.82rem; letter-spacing: 0.26em; }
+    .int-soon, .nockup-soon { font-size: 0.82rem; letter-spacing: 0.26em; }
   }
 </style>
