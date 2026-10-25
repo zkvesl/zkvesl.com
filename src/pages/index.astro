@@ -187,7 +187,7 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
       t += 0.15;  at('--t-trunk', t);  span('--d-trunk', t, t + 0.3);
       t += 0.3;   at('--t-root', t);   span('--d-node', t, t + 0.3);
       t += 0.1;   at('--t-limbs', t);  span('--d-limbs', t, t + 0.5);
-      t += 0.5;   at('--t-ends', t);
+      t += 0.5;   at('--t-ends', t);   span('--d-arms', t, t + 0.35);
       t += 0.12;
       t = Math.max(...[...document.querySelectorAll('.arm')].map((arm) => type(arm, t, 0.006)));
       t += 0.12;  at('--t-close', t);
@@ -735,6 +735,11 @@ import mark from '../assets/vesl-labs-mark.svg?raw';
   /* typed text: hidden until split, then each character switches on at its own moment */
   :global(.build) [data-type]:not(.typed) { visibility: hidden; }
   :global(.build) :global(.ch) { opacity: 0; animation: appear 0.01s linear forwards; }
+
+  /* on phones the folded arms are boxes: each draws on, left to right, as its end node appears */
+  :global(.build) .tree.tap .arm { animation: arm-on var(--d-arms, 0.3s) ease-out var(--t-ends, 0s) backwards; }
+
+  @keyframes arm-on { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 
   /* 5-7. the tree (limbs, nodes, labels, arms) and the core's end take their times from the script; then the footer */
   :global(.build) .foot { opacity: 0; animation: appear var(--d-foot, 0.5s) ease var(--t-foot, 0s) forwards; }
